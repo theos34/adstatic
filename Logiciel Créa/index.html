@@ -1,0 +1,2069 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Winneuse Ad Creative Generator</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=hostgrotesk@4,5,6,7&f[]=satoshi@1,2&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Display:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Styles + thèmes -->
+  <style>
+    :root{
+      /* Thème sombre (par défaut) */
+      --bg:#0b1020;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#e5e7eb;
+      --muted:#9aa3b2;
+      --accent1:#00eacf;
+      --accent2:#00eacf;
+      --accent-glare:rgba(0, 234, 207, 0.25);
+      --warning:#facc15;
+      --ghostBg:#111827;
+      --panel-shadow:0 18px 36px rgba(4, 10, 24, 0.45);
+    }
+    :root[data-theme="light"]{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --ink:#0b1020;
+      --muted:#6b7280;
+      --accent1:#00eacf;
+      --accent2:#00eacf;
+      --accent-glare:rgba(0, 234, 207, 0.2);
+      --warning:#ca8a04;
+      --ghostBg:#f3f4f6;
+      --headerBg:#ffffff;
+      --panel-shadow:0 18px 32px rgba(15, 23, 42, 0.12);
+      --dropzoneBg:var(--card);
+    }
+    :root[data-theme="light"] body::before,
+    :root[data-theme="light"] body::after{
+      display:none;
+    }
+    :root{
+      --headerBg:color-mix(in srgb, var(--card) 96%, transparent);
+      --dropzoneBg:color-mix(in srgb, var(--card) 92%, var(--bg) 8%);
+    }
+    html,body,#root{height:100%}
+    body{
+      background:var(--bg);
+      color:var(--ink);
+      font-family:"Inter Display", "Inter", "Plus Jakarta Sans", "Satoshi", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-weight:400;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      position:relative;
+      overflow-x:hidden;
+      transition: background-color .25s ease, color .25s ease;
+    }
+    h1,h2,h3,h4,h5,h6,
+    .heading-font{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      font-weight:700;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:radial-gradient(circle at top right, rgba(14, 28, 56, 0.35), transparent 55%);
+      opacity:0.6;
+      z-index:-2;
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      left:-20vw;
+      bottom:-25vh;
+      width:55vw;
+      height:45vh;
+      pointer-events:none;
+      background:radial-gradient(circle at 30% 70%, rgba(0, 234, 207, 0.32), transparent 75%);
+      filter:blur(12px);
+      opacity:0.35;
+      z-index:-1;
+    }
+    .card{
+      background:color-mix(in srgb, var(--card) 95%, transparent);
+      border:1px solid var(--border);
+      box-shadow:var(--panel-shadow);
+      backdrop-filter:blur(12px);
+    }
+    .btn-primary{
+      background:var(--accent1);
+      color:#022c22;
+      border:1px solid color-mix(in srgb, var(--accent1) 45%, transparent);
+      box-shadow:0 10px 24px rgba(0, 234, 207, 0.22);
+    }
+    .btn-primary:hover{
+      filter:brightness(1.08);
+    }
+    .btn-primary:focus-visible{outline:2px solid color-mix(in srgb, var(--accent1) 55%, transparent); outline-offset:2px;}
+    .btn-ghost{
+      background:var(--ghostBg);
+      border:1px solid var(--border);
+      color:var(--ink);
+      backdrop-filter:blur(8px);
+    }
+    .color-picker{
+      width:2.5rem;
+      height:2.5rem;
+      padding:0;
+      border:none;
+      border-radius:0.8rem;
+      overflow:hidden;
+      box-shadow:0 0 0 1px var(--border);
+      background:none;
+      cursor:pointer;
+    }
+    .color-picker::-webkit-color-swatch-wrapper{
+      padding:0;
+      border-radius:inherit;
+    }
+    .color-picker::-webkit-color-swatch{
+      border:none;
+      border-radius:inherit;
+    }
+    .color-picker::-moz-color-swatch{
+      border:none;
+      border-radius:inherit;
+    }
+    .hero-shell{
+      position:relative;
+      overflow:hidden;
+      padding:2.8rem clamp(1.6rem, 3vw, 3.4rem);
+      margin-top:1.2rem;
+      border-radius:2rem;
+      border:1px solid color-mix(in srgb, var(--border) 65%, transparent);
+      background:linear-gradient(160deg, rgba(14, 23, 42, 0.96) 0%, rgba(8, 13, 26, 0.94) 100%);
+      box-shadow:0 25px 60px rgba(7, 11, 26, 0.55);
+      backdrop-filter:blur(24px);
+      isolation:isolate;
+    }
+    .hero-shell::before{
+      content:"";
+      position:absolute;
+      inset:-30% -10% auto 55%;
+      height:140%;
+      border-radius:50%;
+      background:radial-gradient(circle at center, rgba(62, 86, 142, 0.4), transparent 70%);
+      filter:blur(18px);
+      opacity:0.5;
+      pointer-events:none;
+      z-index:-1;
+    }
+    .hero-shell::after{
+      content:"";
+      position:absolute;
+      inset:-55% -50% 40% auto;
+      width:60%;
+      background:radial-gradient(circle at center, rgba(26, 42, 84, 0.3), transparent 75%);
+      transform:rotate(18deg);
+      opacity:0.45;
+      pointer-events:none;
+      z-index:-1;
+    }
+    .hero-meta{
+      display:flex;
+      gap:0.6rem;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom:1.4rem;
+    }
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:0.4rem;
+      padding:0.45rem 0.95rem;
+      border-radius:999px;
+      font-size:0.75rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-weight:700;
+      background:linear-gradient(120deg, rgba(91, 252, 177, 0.25), rgba(59, 230, 192, 0.16));
+      border:1px solid color-mix(in srgb, var(--accent1) 40%, transparent);
+      color:color-mix(in srgb, var(--ink) 85%, #032519 15%);
+    }
+    .hero-chip--ghost{
+      background:rgba(26, 34, 57, 0.45);
+      border-color:color-mix(in srgb, var(--border) 50%, transparent);
+      color:var(--muted);
+    }
+    .hero-title{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      font-weight:800;
+      line-height:1.05;
+      margin:0;
+      max-width:26ch;
+      color:var(--ink);
+    }
+    .hero-subtitle{
+      max-width:46ch;
+      margin-top:1.2rem;
+      color:color-mix(in srgb, var(--ink) 75%, var(--muted) 25%);
+      font-size:1.05rem;
+      line-height:1.6;
+    }
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.8rem;
+      margin-top:2rem;
+      align-items:center;
+    }
+    .hero-actions .btn-primary,
+    .hero-actions .btn-ghost{
+      padding:0.85rem 1.6rem;
+      border-radius:999px;
+      font-size:0.95rem;
+      font-weight:600;
+    }
+    .hero-actions .btn-ghost{
+      color:var(--ink);
+      border-color:color-mix(in srgb, var(--border) 65%, transparent);
+      background:rgba(17, 24, 39, 0.6);
+    }
+    .hero-actions .btn-ghost:hover{
+      background:linear-gradient(140deg, rgba(33, 45, 80, 0.65), rgba(17, 24, 39, 0.7));
+      color:var(--ink);
+    }
+    .hero-stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+      gap:1.4rem;
+      margin-top:2.4rem;
+      padding-top:1.6rem;
+      border-top:1px solid color-mix(in srgb, var(--border) 80%, transparent);
+    }
+    .hero-stats > div{
+      display:flex;
+      flex-direction:column;
+      gap:0.35rem;
+    }
+    .hero-stats dt,
+    .hero-stats dd{margin:0;}
+    .hero-stat__value{
+      font-size:1.6rem;
+      font-weight:700;
+      color:var(--ink);
+    }
+    .hero-stat__label{
+      font-size:0.8rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .card-header{
+      position:relative;
+    }
+    .card-heading{
+      display:flex;
+      align-items:center;
+      gap:0.65rem;
+      font-weight:600;
+      letter-spacing:0.03em;
+      color:var(--ink);
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+    }
+    .card-heading__dot{
+      width:0.65rem;
+      height:0.65rem;
+      border-radius:999px;
+      background:linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow:0 0 0 4px rgba(91, 252, 177, 0.18), 0 10px 18px rgba(5, 28, 22, 0.5);
+      flex-shrink:0;
+    }
+    .card-heading__title{
+      font-size:0.95rem;
+      text-transform:uppercase;
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+    }
+    .card-subtitle{
+      margin-top:0.75rem;
+      font-size:0.78rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:color-mix(in srgb, var(--muted) 70%, var(--ink) 30%);
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+    }
+    .section-label{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+      font-size:0.7rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:color-mix(in srgb, var(--muted) 80%, var(--ink) 20%);
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+    }
+    .section-label::before{
+      content:"";
+      inline-size:1.4rem;
+      block-size:1px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(91, 252, 177, 0.65), rgba(91, 252, 177, 0));
+    }
+    .dropzone-shell{
+      position:relative;
+      overflow:hidden;
+      background:var(--dropzoneBg);
+      border-color:color-mix(in srgb, var(--border) 65%, transparent);
+      box-shadow:none;
+      backdrop-filter:blur(16px);
+      isolation:isolate;
+    }
+    .dropzone-shell::before{content:none;}
+    .dropzone-shell::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius:inherit;
+      border:1px solid rgba(91, 252, 177, 0.12);
+      opacity:0.5;
+    }
+    #theme-toggle{
+      border-radius:999px;
+      border:1px solid color-mix(in srgb, var(--border) 65%, transparent);
+      background:rgba(17, 24, 39, 0.6);
+      box-shadow:none;
+      padding:0.55rem 1.1rem;
+      color:var(--ink);
+    }
+    #theme-toggle:hover{
+      background:linear-gradient(135deg, rgba(63, 92, 209, 0.2), rgba(17, 24, 39, 0.7));
+    }
+    :root[data-theme="light"] #theme-toggle{
+      background:#ffffff;
+      color:#0b1020;
+      border:1px solid rgba(15, 23, 42, 0.15);
+      box-shadow:none;
+    }
+    :root[data-theme="light"] #theme-toggle:hover{
+      background:linear-gradient(135deg, rgba(226, 232, 240, 0.7), rgba(255, 255, 255, 0.9));
+    }
+    .app-layout{
+      position:relative;
+      isolation:isolate;
+      gap:clamp(1.4rem, 3vw, 2.8rem);
+    }
+    .app-layout::before{
+      content:"";
+      position:absolute;
+      inset:-18% 10% auto;
+      height:46%;
+      background:radial-gradient(circle at center, rgba(63, 92, 209, 0.14), transparent 70%);
+      opacity:0.35;
+      pointer-events:none;
+      filter:blur(8px);
+      z-index:-1;
+    }
+    .warning{color:var(--warning)}
+    input, textarea, select { color: var(--ink); }
+    .card, .btn-ghost, .btn-primary { transition: background-color .25s ease, color .25s ease, border-color .25s ease, filter .2s ease; }
+    .sidebar{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      background:var(--card);
+      border-right:1px solid var(--border);
+      box-shadow:none;
+    }
+    .sidebar-inner{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:2.25rem;
+      padding:2rem 1.5rem;
+    }
+    .sidebar-actions{
+      margin-top:auto;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    @media (min-width:768px){
+      .sidebar{
+        width:17.5rem;
+        position:sticky;
+        top:0;
+        height:100vh;
+        max-height:100vh;
+        flex-shrink:0;
+        align-self:flex-start;
+      }
+      .sidebar-inner{
+        padding:2.4rem 1.8rem;
+        gap:2.6rem;
+      }
+    }
+    .sidebar-nav{
+      display:flex;
+      flex-direction:column;
+      gap:0.9rem;
+      font-weight:600;
+      font-size:0.9rem;
+      letter-spacing:0.02em;
+    }
+    .sidebar-link{
+      display:flex;
+      align-items:center;
+      gap:0.65rem;
+      padding:0.78rem 0.85rem;
+      border-radius:0.6rem;
+      color:var(--muted);
+      transition:all .2s ease;
+    }
+    .sidebar-icon{
+      inline-size:1.1rem;
+      block-size:1.1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:inherit;
+      opacity:0.9;
+    }
+    .sidebar-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+    #upgrade-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+    #upgrade-btn .upgrade-icon{
+      inline-size:1rem;
+      block-size:1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #upgrade-btn .upgrade-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+    .sidebar-link:hover{
+      color:var(--ink);
+      background:var(--ghostBg);
+    }
+    .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.12);
+      color:#f8fafc;
+    }
+    :root[data-theme="light"] .sidebar{
+      background:#0b1020 !important;
+      border-color:rgba(15,23,42,0.85) !important;
+      color:#f9fafb;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#f9fafb;
+      --muted:rgba(226,232,240,0.68);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link{
+      color:rgba(226,232,240,0.78);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link:hover{
+      background:rgba(255,255,255,0.08);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.14);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-icon{
+      color:inherit;
+    }
+    .btn-generate{
+      border:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:0 1.8rem;
+      min-width:12.5rem;
+      height:3.4rem;
+      border-radius:999px;
+      background:var(--accent1);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.28),
+                 inset 0 -4px 0 rgba(0,0,0,0.15),
+                 0 0 0 4px rgba(59, 230, 192, 0.28),
+                 0 20px 45px rgba(12, 54, 40, 0.6);
+      color:#03261a;
+      font-weight:600;
+      font-size:0.95rem;
+      letter-spacing:0.01em;
+      cursor:pointer;
+      transition:transform .35s ease, box-shadow .35s ease, filter .35s ease, opacity .2s ease;
+    }
+    [data-theme="light"] .btn-generate{color:#052217;}
+    .btn-generate__icon{
+      width:1.35rem;
+      height:1.35rem;
+      fill:#ffffff;
+      transition:transform .6s ease, filter .35s ease;
+    }
+    .btn-generate__text{color:inherit;}
+    .btn-generate:hover:not(:disabled){
+      transform:translateY(-1px) scale(1.01);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),
+                 inset 0 -4px 0 rgba(0,0,0,0.12),
+                 0 0 0 4px rgba(91, 252, 177, 0.32),
+                 0 24px 60px rgba(12, 70, 48, 0.62);
+    }
+    .btn-generate:hover:not(:disabled) .btn-generate__icon{
+      transform:scale(1.08);
+      filter:drop-shadow(0 0 10px rgba(255,255,255,0.6));
+    }
+    .btn-generate:disabled{
+      cursor:not-allowed;
+      opacity:0.65;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.2),
+                 inset 0 -4px 0 rgba(0,0,0,0.08),
+                 0 0 0 3px rgba(59, 230, 192, 0.18);
+    }
+  </style>
+
+  <!-- React UMD -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Additional fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="min-h-screen flex flex-col md:flex-row">
+    <aside class="sidebar border-b md:border-b-0 md:border-r" style="border-color:var(--border); background:var(--card);">
+      <div class="sidebar-inner">
+        <a href="#top" class="flex items-center gap-3 text-base font-semibold">
+          <img src="Adshelplogo.png" alt="Ads help logo" class="h-10 w-auto">
+        </a>
+        <nav class="sidebar-nav">
+          <a href="tutorials.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M5 5.2A1.7 1.7 0 0 1 6.7 3.5H12v17H6.7A1.7 1.7 0 0 1 5 18.8V5.2Z"/>
+                <path fill="currentColor" d="M12 3.5h5.3A1.7 1.7 0 0 1 19 5.2v13.6c0-.94-.76-1.7-1.7-1.7H12V3.5Z"/>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+          <a href="#production" class="sidebar-link" data-active="true">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="7" r="2" fill="currentColor"/>
+                <circle cx="15" cy="17" r="2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>Production</span>
+          </a>
+          <a href="inspiration.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m11.8 2 1.9 5.2L19 9l-5.3 1.9-1.9 5.2-1.9-5.2L4.6 9l5.3-1.8L11.8 2Z"/>
+                <path fill="currentColor" d="m6.2 14.2.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z" opacity="0.7"/>
+              </svg>
+            </span>
+            <span>Inspiration</span>
+          </a>
+          <a href="plan.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M8.5 3.5h7a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M9 9h6M9 13h6M9 17h3"/>
+                <path fill="currentColor" d="M10 2h4v2h-4z"/>
+              </svg>
+            </span>
+            <span>Plan</span>
+          </a>
+          <a href="settings.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm0-5.5 1.1 1.9 2.2-.3.9 2.1 2-.4.3 2.3 2 1-1 2 1 2-2 1 .3 2.3-2 .4-.9 2.1-2.2-.3L12 22l-1.1-1.9-2.2.3-.9-2.1-2 .4-.3-2.3-2-1 1-2-1-2 2-1-.3-2.3 2-.4.9-2.1 2.2.3L12 4Z"/>
+              </svg>
+            </span>
+            <span>Settings</span>
+          </a>
+          <a href="https://tally.so/r/woWpj1" class="sidebar-link" target="_blank" rel="noopener">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m12 3.2 2.1 4.9 5.3.5-4 3.4 1.2 5.2-4.6-2.7-4.6 2.7 1.2-5.2-4-3.4 5.3-.5L12 3.2Z"/>
+              </svg>
+            </span>
+            <span>Featured Request</span>
+          </a>
+        </nav>
+        <div class="sidebar-actions">
+          <a href="plan.html" id="upgrade-btn" class="px-4 rounded-xl btn-primary font-semibold text-sm inline-flex items-center justify-start" style="padding-top:0.95rem; padding-bottom:0.95rem; gap:0.6rem;">
+            <span class="upgrade-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M13.9 2 6 13.3h5.3L10.1 22l7.9-11.3h-5.3L13.9 2Z"/>
+              </svg>
+            </span>
+            <span>Upgrade</span>
+          </a>
+          <div class="card rounded-2xl p-4 space-y-2 text-sm" style="background:color-mix(in srgb, var(--card) 94%, transparent)">
+            <div class="text-base font-semibold">Théo Serra</div>
+            <div class="text-xs" style="color:var(--muted)">theo@adstudio.com</div>
+            <div class="text-xs" style="color:var(--muted)">12 / 100 créatives restantes</div>
+            <div class="h-2 rounded-full overflow-hidden" style="background:color-mix(in srgb, var(--card) 75%, transparent); border:1px solid color-mix(in srgb, var(--border) 70%, transparent);">
+              <div style="width:12%; height:100%; background:var(--accent1);"></div>
+            </div>
+            <div class="text-[10px] uppercase tracking-wide" style="color:var(--muted)">12 % du quota utilisé</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+      <main class="flex-1">
+        <div id="top"></div>
+
+        <div class="flex justify-end px-4 md:px-6 pt-4">
+          <button id="theme-toggle" class="px-3 py-2 rounded-xl btn-ghost text-sm">☼ Light</button>
+        </div>
+
+        <section class="max-w-6xl mx-auto px-4 md:px-6 pt-3 pb-0">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Production créative</h1>
+          <p class="text-base md:text-lg mt-2" style="color:var(--muted)">Préparez vos assets, paramétrez vos kits et générez vos publicités en quelques clics.</p>
+        </section>
+
+        <div id="production"></div>
+
+        <div id="root"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toggle Light/Dark persistant -->
+  <script>
+  (function(){
+    const KEY = 'theme';
+    const btn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    const stored = localStorage.getItem(KEY);
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = stored || (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', initial);
+    updateBtn(initial);
+    btn?.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') === 'light') ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(KEY, next);
+      updateBtn(next);
+    });
+    function updateBtn(theme){ if(btn) btn.textContent = theme === 'light' ? '☾ Dark' : '☼ Light'; }
+  })();
+  </script>
+
+  <script type="text/babel">
+    const { useEffect, useMemo, useRef, useState, useCallback } = React;
+
+    // ---------- Utils ----------
+    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+    const uid = () => Math.random().toString(36).slice(2,10);
+    const nowISO = () => new Date().toISOString();
+
+    const loadImage = (src) => new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+    const fileToDataUrl = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+    function hexToRgb(hex){const s=hex.replace('#','');const n=parseInt(s.length===3?s.split('').map(c=>c+c).join(''):s,16);return{r:(n>>16)&255,g:(n>>8)&255,b:n&255};}
+    function withAlpha(hex,a){const {r,g,b}=hexToRgb(hex);return `rgba(${r}, ${g}, ${b}, ${a})`;}
+    function wrapText(ctx,text,x,y,maxWidth,lineHeight){
+      const words=(text||'').split(' ');let line='';const lines=[];
+      for(let n=0;n<words.length;n++){
+        const test=line+words[n]+' ';
+        if(ctx.measureText(test).width>maxWidth&&n>0){lines.push(line.trim());line=words[n]+' ';}else{line=test;}
+      }
+      lines.push(line.trim());
+      lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));
+    }
+
+    // ---------- Storage (séparé) ----------
+    const LS = {
+      brandKits: 'brandKits-v2',
+      brandCurrent: 'brandKits-currentId',
+      productKits: 'productKits-v1',
+      productCurrent: 'productKits-currentId'
+    };
+
+    function defaultBrand(){
+      return {
+        brandName:'',
+        colors:['#00eacf','#00c7aa','#0b1020'],
+        fontHeadline:'Host Grotesk',
+        fontBody:'Inter Display',
+        tone:'Bold & Audacious',
+        toneFree:'audacieux, direct, orienté action',
+        _assetsBrand:{ logo:'' }
+      };
+    }
+    function defaultProduct(){
+      return {
+        siteUrl:'',
+        benefitsText:'Qualité premium\nLivraison rapide\nSatisfait ou remboursé',
+        _assetsProduct:{ products:[] }
+      };
+    }
+
+    // ---- Brand store
+    function loadBrandKits(){
+      const raw = localStorage.getItem(LS.brandKits);
+      if(raw){ try{ const k=JSON.parse(raw); return Array.isArray(k)&&k.length? k : [{id:uid(),name:'Default',data:defaultBrand(),updatedAt:nowISO()}]; }catch(e){} }
+      const first = { id: uid(), name:'Default', data: defaultBrand(), updatedAt: nowISO() };
+      localStorage.setItem(LS.brandKits, JSON.stringify([first]));
+      localStorage.setItem(LS.brandCurrent, first.id);
+      return [first];
+    }
+    function safeSetItem(key, value){
+      try{
+        localStorage.setItem(key, value);
+        return true;
+      }catch(err){
+        console.error('LocalStorage save failed for', key, err);
+        return false;
+      }
+    }
+
+    function saveBrandKits(k){ return safeSetItem(LS.brandKits, JSON.stringify(k)); }
+    const loadCurrentBrandId = () => localStorage.getItem(LS.brandCurrent);
+    const saveCurrentBrandId = (id) => localStorage.setItem(LS.brandCurrent, id);
+
+    // ---- Product store
+    function loadProductKits(){
+      const raw = localStorage.getItem(LS.productKits);
+      if(raw){ try{ const k=JSON.parse(raw); return Array.isArray(k)&&k.length? k : [{id:uid(),name:'Product 1',data:defaultProduct(),updatedAt:nowISO()}]; }catch(e){} }
+      const first = { id: uid(), name:'Product 1', data: defaultProduct(), updatedAt: nowISO() };
+      localStorage.setItem(LS.productKits, JSON.stringify([first]));
+      localStorage.setItem(LS.productCurrent, first.id);
+      return [first];
+    }
+    function saveProductKits(k){ return safeSetItem(LS.productKits, JSON.stringify(k)); }
+    const loadCurrentProductId = () => localStorage.getItem(LS.productCurrent);
+    const saveCurrentProductId = (id) => localStorage.setItem(LS.productCurrent, id);
+
+    // ---------- Copy generator ----------
+    function generateCopy({ brandName, benefits, tone }){
+      const safe=(benefits||[]).map(b=>b.trim()).filter(Boolean).slice(0,3);
+      const primary=safe[0]||'Qualité au rendez-vous';
+      const secondary=safe[1]||'Pensé pour vous';
+      const t=(tone||'').toLowerCase();
+      const isBold = /audac|bold|percut|direct/.test(t);
+      const isElegant = /élég|elegant|minim|sobre|raffin/.test(t);
+      const isPlayful = /playful|witty|fun|humou/.test(t);
+      if(isBold)   return {headline:`${brandName?brandName+' — ':''}${primary}`, subline:`${secondary}. Passez à l'action maintenant.`, cta:'Découvrir'};
+      if(isElegant)return {headline:primary, subline:`${brandName||''}${brandName?': ':''}${secondary}`, cta:'En savoir plus'};
+      if(isPlayful)return {headline:primary+' 😉', subline:`${secondary}. ${brandName||''}`.trim(), cta:"Let's go"};
+      return {headline:primary, subline:secondary, cta:'Voir'};
+    }
+    function roundRectPath(x,y,w,h,r){
+      const radius=Math.min(r,w/2,h/2);
+      return `M ${x+radius} ${y} H ${x+w-radius} Q ${x+w} ${y} ${x+w} ${y+radius} V ${y+h-radius} Q ${x+w} ${y+h} ${x+w-radius} ${y+h} H ${x+radius} Q ${x} ${y+h} ${x} ${y+h-radius} V ${y+radius} Q ${x} ${y} ${x+radius} ${y} Z`;
+    }
+
+    // ---------- UI primitives ----------
+    function Dropzone({ onFiles, accept='*', multiple=false, hint='Upload', previews=[], onRemove, onPreviewClick, selectedIndex=null, variant='default', previewSize=null }) {
+      const ref = useRef(null);
+      function onDrop(e){e.preventDefault(); const files=e.dataTransfer.files; if(!files?.length) return; multiple?onFiles(files):onFiles([files[0]]);} 
+      const hasPreviews = Array.isArray(previews) && previews.length>0;
+      const isCompact = variant==='compact';
+      const paddingClass = isCompact ? 'px-3 py-2 md:px-3 md:py-2' : 'p-4 md:p-6';
+      const gridCols = multiple ? 'grid-cols-3 md:grid-cols-4' : 'grid-cols-1';
+      const minHeight = hasPreviews
+        ? previewSize ? previewSize + 16 : (isCompact ? 58 : 140)
+        : previewSize ? previewSize + 24 : (isCompact ? 56 : 128);
+      const compactStyle = isCompact ? {maxWidth:'160px', width:'100%', margin:'0 auto'} : {};
+      return (
+        <div
+          onDragOver={(e)=>e.preventDefault()}
+          onDrop={onDrop}
+          className={`dropzone-shell border border-dashed rounded-xl text-center relative ${paddingClass}`}
+          style={{borderColor:'var(--border)', background:'var(--dropzoneBg)', minHeight, ...compactStyle}}
+        >
+          {!hasPreviews && (
+            <>
+              <div className="text-sm font-semibold" style={{color:'var(--accent1)'}}>Click to upload</div>
+              <div className="text-xs" style={{color:'var(--muted)'}}>or drag and drop</div>
+              <div className="text-[11px] mt-2" style={{color:'var(--muted)'}}>{hint}</div>
+            </>
+          )}
+          {hasPreviews && (
+            <div className={`grid ${gridCols} gap-3 mt-1`} style={previewSize ? {justifyContent:'flex-start', justifyItems:'start'} : undefined}>
+              {previews.map((src,idx)=>{
+                const isSelected = typeof selectedIndex === 'number' && selectedIndex === idx;
+                const aspect = previewSize ? '' : multiple ? 'aspect-square' : (isCompact ? 'aspect-square' : 'aspect-video');
+                const previewStyle = {
+                  borderColor: isSelected ? 'rgba(255,255,255,0.45)' : 'var(--border)',
+                  boxShadow: isSelected ? '0 0 0 2px rgba(255,255,255,0.12)' : 'none',
+                  ...(previewSize ? {width:previewSize, height:previewSize, margin:0} : {})
+                };
+                const previewClass = `relative ${aspect} ${previewSize ? 'rounded-xl overflow-hidden flex items-center justify-center' : 'rounded-lg overflow-hidden'} border ${onPreviewClick ? 'cursor-pointer' : ''}`.trim();
+                return (
+                  <div
+                    key={idx}
+                    className={previewClass}
+                    style={previewStyle}
+                    onClick={()=>onPreviewClick?.(idx)}
+                  >
+                    <img src={src} alt="preview" className="w-full h-full object-cover" style={previewSize ? {borderRadius:'inherit'} : undefined} />
+                    {onRemove && (
+                      <button
+                        onClick={(e)=>{e.stopPropagation(); onRemove(idx);}}
+                        className="absolute top-1 right-1 h-6 w-6 rounded-full text-xs font-bold"
+                        style={{background:'rgba(0,0,0,0.6)', color:'#fff'}}
+                        title="Supprimer"
+                      >×</button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <input ref={ref} type="file" accept={accept} multiple={multiple} className="hidden" onChange={(e)=>onFiles(e.target.files)} />
+          <div className="mt-3">
+            <button onClick={()=>ref.current?.click()} className="px-3 py-1.5 rounded-lg btn-ghost text-xs">
+              {hasPreviews ? (multiple? 'Ajouter d’autres images':'Remplacer') : 'Browse'}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const Card = ({ title, subtitle, children, collapsible=false, open=true, onToggle, className='', bodyClassName='' }) => (
+      <div className={`card rounded-2xl shadow-[0_0_0_1px_rgba(255,255,255,0.02)] ${className}`.trim()}>
+        <div className={`p-4 md:p-5 ${bodyClassName}`.trim()}>
+          <div className="mb-4">
+            <div className="flex items-center justify-between gap-3 card-header">
+              <div className="card-heading">
+                <span className="card-heading__dot" aria-hidden="true"></span>
+                <span className="card-heading__title">{title}</span>
+              </div>
+              {collapsible && (
+                <button
+                  onClick={onToggle}
+                  className="px-2 py-1 text-xs btn-ghost rounded-lg"
+                  aria-expanded={open}
+                  title={open ? 'Réduire' : 'Déployer'}
+                >
+                  <span className={`inline-block transition-transform ${open ? 'rotate-180' : ''}`}>⌃</span>
+                </button>
+              )}
+            </div>
+            {subtitle && <div className="card-subtitle">{subtitle}</div>}
+          </div>
+          {collapsible ? (open ? children : null) : children}
+        </div>
+      </div>
+    );
+
+    const SectionLabel = ({ children }) => (
+      <div className="section-label mb-2">{children}</div>
+    );
+
+    function GenerateButton({ label, loading=false, loadingLabel='Génération…', disabled=false, onClick, className='', style, ariaLabel }) {
+      const finalDisabled = disabled || loading;
+      const text = loading ? loadingLabel : label;
+      return (
+        <button
+          type="button"
+          className={`btn-generate ${className}`.trim()}
+          onClick={onClick}
+          disabled={finalDisabled}
+          aria-busy={loading}
+          aria-label={ariaLabel || text}
+          style={style}
+        >
+          <svg
+            className="btn-generate__icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M10 21.236 6.755 14.745.264 11.5 6.755 8.255 10 1.764l3.245 6.491L19.736 11.5l-6.491 3.245Zm8-0.236L19.5 24 21 21.764 24 20.5 21 19.236 19.5 17 18 19.236 15 20.5Zm1.333-16.569L20.5 7l1.167-2.333L24 3.5l-2.333-1.167L20.5 0l-1.167 2.333L17 3.5Z"/>
+          </svg>
+          <span className="btn-generate__text">{text}</span>
+        </button>
+      );
+    }
+
+    // ---------- App ----------
+    const initialBrandKits = loadBrandKits();
+    const initialBrandId = loadCurrentBrandId() || (initialBrandKits[0]?.id);
+    const initialProductKits = loadProductKits();
+    const initialProductId = loadCurrentProductId() || (initialProductKits[0]?.id);
+
+    function App(){
+      // Template & canvas
+      const templateCacheRef = useRef(new Map());
+      const [templateImg,setTemplateImg]=useState(null);
+      const [templateLibrary,setTemplateLibrary]=useState([]);
+      const [currentTemplateId,setCurrentTemplateId]=useState(null);
+      const canvasRef=useRef(null);
+
+      // Brand kits state
+      const [brandKits,setBrandKits]=useState(initialBrandKits);
+      const [currentBrandId,setCurrentBrandId]=useState(initialBrandId);
+      const currentBrandKit = useMemo(()=>brandKits.find(k=>k.id===currentBrandId) || brandKits[0], [brandKits,currentBrandId]);
+      const [brand,setBrand]=useState(()=> currentBrandKit?.data || defaultBrand());
+      const [brandNameInput,setBrandNameInput]=useState(()=> currentBrandKit?.name || '');
+
+      // Product kits state
+      const [productKits,setProductKits]=useState(initialProductKits);
+      const [currentProductId,setCurrentProductId]=useState(initialProductId);
+      const currentProductKit = useMemo(()=>productKits.find(k=>k.id===currentProductId) || productKits[0], [productKits,currentProductId]);
+      const [siteUrl, setSiteUrl] = useState(()=> currentProductKit?.data?.siteUrl || '');
+      const [productBenefits, setProductBenefits] = useState(()=> currentProductKit?.data?.benefitsText || defaultProduct().benefitsText);
+      const [products,setProducts]=useState(()=> currentProductKit?.data?._assetsProduct?.products || []);
+      const [productNameInput,setProductNameInput]=useState(()=> currentProductKit?.name || '');
+
+      // Derived
+      const logo = brand?._assetsBrand?.logo || '';
+      const [showGuides,setShowGuides]=useState(true);
+      const [brandOpen,setBrandOpen]=useState(true);
+      const [productOpen,setProductOpen]=useState(true);
+
+      // Art layout (headline up)
+      const [art,setArt]=useState({
+        product:{x:0.58,y:0.60,scale:0.9},
+        logo:{x:0.08,y:0.08,scale:0.14},
+        headline:{x:0.08,y:0.18},
+        subline:{x:0.08,y:0.30},
+        cta:{x:0.08,y:0.82,w:0.33,h:0.08,radius:16},
+        overlayStrength:0.18,
+        shadow:24
+      });
+
+      const currentTemplate = useMemo(()=>{
+        if(!templateLibrary.length) return null;
+        const found = currentTemplateId ? templateLibrary.find(t=>t.id===currentTemplateId) : null;
+        return found || templateLibrary[0];
+      }, [templateLibrary, currentTemplateId]);
+      const currentTemplateSrc = currentTemplate?.src || '';
+
+      const [creativeMode, setCreativeMode] = useState('single');
+      const [batchCount, setBatchCount] = useState(10);
+      const [batchCreatives, setBatchCreatives] = useState([]);
+      const [isBatchGenerating, setIsBatchGenerating] = useState(false);
+      const [batchMessage, setBatchMessage] = useState('');
+      const [storageWarning,setStorageWarning] = useState('');
+      const clearStorageWarning = useCallback(()=>setStorageWarning(''),[]);
+      const reportStorageFailure = useCallback((message)=>{
+        setStorageWarning(message || 'Sauvegarde impossible : stockage local saturé (images trop nombreuses ou trop lourdes).');
+        setTimeout(()=>setStorageWarning(''), 7000);
+      },[]);
+
+      const templatePreviews = creativeMode==='batch'
+        ? templateLibrary.map(t=>t.src)
+        : currentTemplateSrc ? [currentTemplateSrc] : [];
+      const selectedTemplateIndex = creativeMode==='batch'
+        ? templateLibrary.findIndex(t=>t.id===currentTemplateId)
+        : (currentTemplateSrc ? 0 : -1);
+
+      const MAX_BATCH = 60;
+      const MIN_BENEFITS_LENGTH = 300;
+
+      // Copy
+      const benefits = useMemo(()=>productBenefits.split(/\n|•|-|\u2022/).map(v=>v.trim()),[productBenefits]);
+      const toneEffective = brand.toneFree?.trim() ? brand.toneFree : brand.tone;
+      const copy=useMemo(()=>generateCopy({brandName:brand.brandName, benefits, tone:toneEffective}),[brand.brandName,toneEffective,productBenefits]);
+
+      const benefitsLength = useMemo(()=>productBenefits.trim().length,[productBenefits]);
+      const benefitsTooShort = benefitsLength < MIN_BENEFITS_LENGTH;
+
+      useEffect(()=>{
+        if(!templateLibrary.length){
+          setCurrentTemplateId(null);
+          return;
+        }
+        if(currentTemplateId && templateLibrary.some(t=>t.id===currentTemplateId)) return;
+        setCurrentTemplateId(templateLibrary[0].id);
+      },[templateLibrary, currentTemplateId]);
+
+      // Load preview image
+      useEffect(()=>{
+        if(!currentTemplateSrc){
+          setTemplateImg(null);
+          return;
+        }
+        const cache = templateCacheRef.current;
+        if(cache.has(currentTemplateSrc)){
+          setTemplateImg(cache.get(currentTemplateSrc));
+          return;
+        }
+        loadImage(currentTemplateSrc)
+          .then(img=>{
+            cache.set(currentTemplateSrc, img);
+            setTemplateImg(img);
+          })
+          .catch(()=>setTemplateImg(null));
+      },[currentTemplateSrc]);
+      useEffect(()=>{ setBatchCreatives([]); setBatchMessage(''); },[currentTemplateSrc, templateLibrary]);
+
+      // Persist selection
+      useEffect(()=>{ if(currentBrandId) saveCurrentBrandId(currentBrandId); },[currentBrandId]);
+      useEffect(()=>{ if(currentProductId) saveCurrentProductId(currentProductId); },[currentProductId]);
+
+      // Switch BRAND kit
+      useEffect(()=>{
+        if(!currentBrandKit) return;
+        const data = currentBrandKit.data || defaultBrand();
+        setBrand({...defaultBrand(), ...data});
+        setBrandNameInput(currentBrandKit.name || '');
+      },[currentBrandKit?.id]);
+
+      // Switch PRODUCT kit
+      useEffect(()=>{
+        if(!currentProductKit) return;
+        const data = currentProductKit.data || defaultProduct();
+        setSiteUrl(data.siteUrl || '');
+        setProductBenefits(data.benefitsText || defaultProduct().benefitsText);
+        const kitProducts = data._assetsProduct?.products || [];
+        setProducts(Array.isArray(kitProducts) ? [...kitProducts] : []);
+        setProductNameInput(currentProductKit.name || '');
+      },[currentProductKit?.id, currentProductKit?.updatedAt]);
+
+      // Dirty flags + flash
+      const dirtyBrand = useMemo(()=>{
+        const base = currentBrandKit?.data || defaultBrand();
+        return JSON.stringify({
+          ...brand,
+          name: brandNameInput.trim()
+        }) !== JSON.stringify({
+          ...base,
+          name: (currentBrandKit?.name||'').trim()
+        });
+      }, [brand, brandNameInput, currentBrandKit?.id]);
+
+      const dirtyProduct = useMemo(()=>{
+        const base = currentProductKit?.data || defaultProduct();
+        return JSON.stringify({
+          siteUrl, benefitsText: productBenefits, _assetsProduct:{ products }, name: productNameInput.trim()
+        }) !== JSON.stringify({
+          siteUrl: base.siteUrl, benefitsText: base.benefitsText, _assetsProduct: base._assetsProduct, name:(currentProductKit?.name||'').trim()
+        });
+      }, [siteUrl, productBenefits, products, productNameInput, currentProductKit?.id]);
+
+      const [savedFlash, setSavedFlash] = useState(false);
+      const flashSaved = useCallback(()=>{ setSavedFlash(true); setTimeout(()=>setSavedFlash(false), 1200); },[]);
+
+      // Brand actions
+      function saveBrandAsNew(){
+        const name = (brandNameInput||brand.brandName||'Brand').trim();
+        const newKit = { id: uid(), name, data: brand, updatedAt: nowISO() };
+        let persisted = false;
+        setBrandKits(prev => {
+          const next=[newKit,...prev];
+          if(!saveBrandKits(next)){
+            reportStorageFailure();
+            return prev;
+          }
+          persisted = true;
+          return next;
+        });
+        if(persisted){
+          saveCurrentBrandId(newKit.id);
+          setCurrentBrandId(newKit.id);
+          flashSaved();
+        }
+      }
+      function updateBrand(){
+        if(!currentBrandKit){ saveBrandAsNew(); return; }
+        let persisted = false;
+        setBrandKits(prev=>{
+          const next = prev.map(k=> k.id===currentBrandId ? ({...k, name: brandNameInput?.trim()||k.name, data: brand, updatedAt: nowISO()}) : k );
+          if(!saveBrandKits(next)){
+            reportStorageFailure();
+            return prev;
+          }
+          persisted = true;
+          return next;
+        });
+        if(persisted){
+          saveCurrentBrandId(currentBrandId);
+          flashSaved();
+        }
+      }
+      function deleteBrand(){
+        if(!currentBrandKit) return;
+        const ok = window.confirm('Supprimer ce kit marque ? Cette action est définitive.');
+        if(!ok) return;
+        setBrandKits(prev=>{
+          const next = prev.filter(k=>k.id!==currentBrandId);
+          if(!next.length){
+            const fallback = { id: uid(), name:'Default', data: defaultBrand(), updatedAt: nowISO() };
+          if(!saveBrandKits([fallback])){ reportStorageFailure(); return prev; }
+          saveCurrentBrandId(fallback.id);
+          setCurrentBrandId(fallback.id); return [fallback];
+          }
+          if(!saveBrandKits(next)){ reportStorageFailure(); return prev; }
+          saveCurrentBrandId(next[0].id);
+          setCurrentBrandId(next[0].id); return next;
+        });
+      }
+
+      // Product actions
+      function saveProductAsNew(){
+        if(benefitsTooShort) return;
+        const name = (productNameInput||'Product').trim();
+        const data = { siteUrl, benefitsText: productBenefits, _assetsProduct:{ products } };
+        const newKit = { id: uid(), name, data, updatedAt: nowISO() };
+        let persisted = false;
+        setProductKits(prev => {
+          const next=[newKit,...prev];
+          if(!saveProductKits(next)){
+            reportStorageFailure();
+            return prev;
+          }
+          persisted = true;
+          return next;
+        });
+        if(persisted){
+          saveCurrentProductId(newKit.id);
+          setCurrentProductId(newKit.id); flashSaved();
+        }
+      }
+      function updateProduct(){
+        if(benefitsTooShort){ return; }
+        if(!currentProductKit){ saveProductAsNew(); return; }
+        const data = { siteUrl, benefitsText: productBenefits, _assetsProduct:{ products } };
+        let persisted = false;
+        setProductKits(prev=>{
+          const next = prev.map(k=> k.id===currentProductId ? ({...k, name: productNameInput?.trim()||k.name, data, updatedAt: nowISO()}) : k );
+          if(!saveProductKits(next)){
+            reportStorageFailure();
+            return prev;
+          }
+          persisted = true;
+          return next;
+        });
+        if(persisted){
+          saveCurrentProductId(currentProductId);
+          flashSaved();
+        }
+      }
+      function deleteProduct(){
+        if(!currentProductKit) return;
+        const ok = window.confirm('Supprimer ce kit produit ? Cette action est définitive.');
+        if(!ok) return;
+        setProductKits(prev=>{
+          const next = prev.filter(k=>k.id!==currentProductId);
+          if(!next.length){
+            const fallback = { id: uid(), name:'Product 1', data: defaultProduct(), updatedAt: nowISO() };
+          if(!saveProductKits([fallback])){ reportStorageFailure(); return prev; }
+          saveCurrentProductId(fallback.id);
+          setCurrentProductId(fallback.id); return [fallback];
+          }
+          if(!saveProductKits(next)){ reportStorageFailure(); return prev; }
+          saveCurrentProductId(next[0].id);
+          setCurrentProductId(next[0].id); return next;
+        });
+      }
+
+      // Logo & product images handlers
+      async function handleLogoFiles(files){const f=files?.[0]; if(!f) return; const src=await fileToDataUrl(f); setBrand(b=>({...b, _assetsBrand:{...(b._assetsBrand||{}), logo:src}}));}
+      async function handleProductFiles(files){const arr=[]; for(const f of files) arr.push(await fileToDataUrl(f)); setProducts(p=>[...p,...arr]);}
+
+      function labelFromSrc(src){
+        try{
+          const url = new URL(src);
+          const segments = url.pathname.split('/').filter(Boolean);
+          return segments.pop() || url.hostname || '';
+        }catch(e){
+          return '';
+        }
+      }
+
+      function addTemplateToLibrary(src, label){
+        if(!src) return;
+        let chosenId = null;
+        setTemplateLibrary(prev=>{
+          const existing = prev.find(t=>t.src===src);
+          if(existing){
+            chosenId = existing.id;
+            if(creativeMode==='single'){
+              return [existing];
+            }
+            return prev;
+          }
+          const id = uid();
+          chosenId = id;
+          const baseLabel = label || labelFromSrc(src);
+          const computedLabel = baseLabel || `Template ${prev.length + 1}`;
+          const entry = {id, src, label: computedLabel};
+          if(creativeMode==='single'){
+            return [entry];
+          }
+          return [...prev, entry];
+        });
+        if(chosenId) setCurrentTemplateId(chosenId);
+      }
+
+      function removeTemplate(templateId){
+        if(!templateId) return;
+        let removedSrc = null;
+        setTemplateLibrary(prev=>{
+          const next = prev.filter(t=>t.id!==templateId);
+          const removed = prev.find(t=>t.id===templateId);
+          removedSrc = removed?.src || null;
+          if(!next.length){
+            setCurrentTemplateId(null);
+          }else if(currentTemplateId===templateId){
+            setCurrentTemplateId(next[0].id);
+          }
+          return next;
+        });
+        if(removedSrc) templateCacheRef.current.delete(removedSrc);
+      }
+
+      async function handleTemplateFiles(files){
+        if(!files?.length) return;
+        for(const file of files){
+          const src = await fileToDataUrl(file);
+          addTemplateToLibrary(src, file.name);
+        }
+      }
+
+      const handleTemplateRemove = useCallback((idx)=>{
+        if(creativeMode==='batch'){
+          const tpl = templateLibrary[idx];
+          if(tpl) removeTemplate(tpl.id);
+        }else if(currentTemplateId){
+          removeTemplate(currentTemplateId);
+        }
+        setBatchCreatives([]);
+        setBatchMessage('');
+      },[creativeMode, templateLibrary, removeTemplate, currentTemplateId]);
+
+      const handleTemplatePreviewClick = useCallback((idx)=>{
+        if(creativeMode!=='batch') return;
+        const tpl = templateLibrary[idx];
+        if(tpl) setCurrentTemplateId(tpl.id);
+      },[creativeMode, templateLibrary, setCurrentTemplateId]);
+
+      // Canvas preview
+      const CANVAS_WIDTH = 1080;
+      const CANVAS_HEIGHT = 1920;
+
+      async function drawCanvas(productSrc, options = {}){
+        const { targetCanvas = canvasRef.current, showGuides: showGuidesOverride, copyOverride, templateSrc: templateSrcOverride } = options;
+        if(!targetCanvas) return null;
+
+        const templateSource = templateSrcOverride || currentTemplateSrc;
+        if(!templateSource) return null;
+
+        const cache = templateCacheRef.current;
+        let baseTemplateImg = templateSrcOverride ? cache.get(templateSource) : templateImg;
+        if(!baseTemplateImg){
+          try {
+            baseTemplateImg = await loadImage(templateSource);
+            cache.set(templateSource, baseTemplateImg);
+            if(!templateSrcOverride && templateSource===currentTemplateSrc){
+              setTemplateImg(baseTemplateImg);
+            }
+          } catch (err) {
+            console.error('Failed to load template', err);
+            return null;
+          }
+        }
+
+        const ctx = targetCanvas.getContext('2d');
+        const tW = baseTemplateImg.width;
+        const tH = baseTemplateImg.height;
+        const W = CANVAS_WIDTH;
+        const H = CANVAS_HEIGHT;
+        targetCanvas.width = W;
+        targetCanvas.height = H;
+
+        ctx.clearRect(0,0,W,H);
+        const scale = Math.max(W / tW, H / tH);
+        const drawW = tW * scale;
+        const drawH = tH * scale;
+        const offsetX = (W - drawW) / 2;
+        const offsetY = (H - drawH) / 2;
+        ctx.drawImage(baseTemplateImg, offsetX, offsetY, drawW, drawH);
+        ctx.fillStyle = withAlpha(brand.colors[0]||'#00eacf', art.overlayStrength);
+        ctx.fillRect(0,0,W,H);
+
+        if(productSrc){
+          try {
+            const productImg = await loadImage(productSrc);
+            const maxW = W * 0.6 * art.product.scale;
+            const maxH = H * 0.6 * art.product.scale;
+            const r = Math.min(maxW / productImg.width, maxH / productImg.height);
+            const w = productImg.width * r;
+            const h = productImg.height * r;
+            const x = art.product.x * W - w / 2;
+            const y = art.product.y * H - h / 2;
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.35)';
+            ctx.shadowBlur = art.shadow;
+            ctx.shadowOffsetY = Math.round(art.shadow / 3);
+            ctx.drawImage(productImg, x, y, w, h);
+            ctx.restore();
+          } catch (err) {
+            console.error('Failed to draw product image', err);
+          }
+        }
+
+        const logoSrc = brand._assetsBrand?.logo;
+        if(logoSrc){
+          try {
+            const logoImg = await loadImage(logoSrc);
+            const w = W * art.logo.scale;
+            const r = w / logoImg.width;
+            const h = logoImg.height * r;
+            const x = art.logo.x * W;
+            const y = art.logo.y * H;
+            ctx.save();
+            ctx.globalAlpha = 0.95;
+            ctx.drawImage(logoImg, x, y, w, h);
+            ctx.restore();
+          } catch (err) {
+            console.error('Failed to draw logo', err);
+          }
+        }
+
+        const effectiveCopy = copyOverride || copy;
+        ctx.fillStyle = '#fff';
+        ctx.textBaseline = 'top';
+        ctx.font = `800 ${Math.round(H*0.06)}px "${brand.fontHeadline||'Host Grotesk'}", "Host Grotesk", "Plus Jakarta Sans", sans-serif`;
+        const Mx = W * 0.08;
+        const My = H * 0.08;
+        const hx = clamp(art.headline.x * W, Mx, W - Mx);
+        const hy = clamp(art.headline.y * H, My, H - My);
+        const sx = clamp(art.subline.x * W,  Mx, W - Mx);
+        const sy = clamp(art.subline.y * H,  My, H - My);
+        const safeWidth = W - 2 * Mx;
+
+        wrapText(ctx, effectiveCopy.headline, hx, hy, safeWidth, H * 0.07);
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.font = `500 ${Math.round(H*0.035)}px "${brand.fontBody||'Inter Display'}", "Inter Display", "Plus Jakarta Sans", sans-serif`;
+        wrapText(ctx, effectiveCopy.subline,  sx, sy, safeWidth, H * 0.055);
+
+        const bx = art.cta.x * W;
+        const by = art.cta.y * H;
+        const bw = W * art.cta.w;
+        const bh = H * art.cta.h;
+        const path = new Path2D(roundRectPath(bx, by, bw, bh, art.cta.radius));
+        ctx.fillStyle = brand.colors[0] || '#00eacf';
+        ctx.fill(path);
+        ctx.fillStyle = '#fff';
+        ctx.font = `700 ${Math.round(bh*0.45)}px "${brand.fontBody||'Inter Display'}", "Inter Display", "Plus Jakarta Sans", sans-serif`;
+        const tw = ctx.measureText(effectiveCopy.cta).width;
+        ctx.fillText(effectiveCopy.cta, bx + bw/2 - tw/2, by + bh/2 - bh*0.28);
+
+        const shouldShowGuides = showGuidesOverride ?? showGuides;
+        if(shouldShowGuides){
+          ctx.save();
+          ctx.fillStyle='rgba(255,255,255,0.9)';
+          ctx.strokeStyle='rgba(17,24,39,0.9)';
+          const handles=[{p:art.product,label:'product'},{p:art.logo,label:'logo'},{p:art.headline,label:'headline'},{p:art.subline,label:'subline'},{p:art.cta,label:'cta'}];
+          handles.forEach(h=>{
+            const x=(h.p.x??0.5)*W;
+            const y=(h.p.y??0.5)*H;
+            ctx.beginPath();
+            ctx.arc(x,y,6,0,Math.PI*2);
+            ctx.fill();
+            ctx.stroke();
+          ctx.font='600 12px "Inter Display", sans-serif';
+            ctx.fillStyle='#111827';
+            ctx.fillText(h.label, x+10, y-6);
+          });
+          ctx.restore();
+        }
+
+        return targetCanvas;
+      }
+
+      function buildCopyVariant(index){
+        const sanitized = benefits.filter(Boolean);
+        if(!sanitized.length) return copy;
+        const rotation = index % sanitized.length;
+        const rotated = [...sanitized.slice(rotation), ...sanitized.slice(0, rotation)];
+        return generateCopy({ brandName: brand.brandName, benefits: rotated, tone: toneEffective });
+      }
+
+      async function handleBatchGenerate(){
+        if(!templateLibrary.length){
+          setBatchMessage('Ajoutez au moins un template avant de générer.');
+          return;
+        }
+        if(benefitsTooShort){
+          setBatchMessage(`Ajoutez encore ${MIN_BENEFITS_LENGTH - benefitsLength} caractère(s) à vos bénéfices.`);
+          return;
+        }
+        setBatchMessage('');
+        setIsBatchGenerating(true);
+        try {
+          const templates = templateLibrary;
+          const count = clamp(batchCount, 1, MAX_BATCH);
+          const sources = products.length ? products : [null];
+          const results = [];
+          for(let i=0; i<count; i++){
+            const canvas = document.createElement('canvas');
+            const productSrc = sources[i % sources.length] || null;
+            const variantCopy = buildCopyVariant(i);
+            const templateIndex = i % templates.length;
+            const templateEntry = templates[templateIndex];
+            const renderedCanvas = await drawCanvas(productSrc, {
+              targetCanvas: canvas,
+              showGuides: false,
+              copyOverride: variantCopy,
+              templateSrc: templateEntry?.src
+            });
+            if(!renderedCanvas){
+              console.warn('Créative ignorée : template indisponible.');
+              continue;
+            }
+            results.push({
+              id: uid(),
+              preview: canvas.toDataURL('image/png'),
+              copy: variantCopy,
+              productSrc,
+              productIndex: productSrc && products.length ? (i % products.length) : null,
+              templateIndex,
+              templateLabel: templateEntry?.label || `Template ${templateIndex + 1}`
+            });
+          }
+          setBatchCreatives(results);
+          setBatchMessage(`${results.length} créatives générées à partir de ${templateLibrary.length} template${templateLibrary.length>1?'s':''}.`);
+        } catch (err) {
+          console.error('Batch generation failed', err);
+          setBatchMessage('Impossible de générer les créatives. Réessayez.');
+        } finally {
+          setIsBatchGenerating(false);
+        }
+      }
+
+      // Drag handles
+      const [drag,setDrag]=useState(null);
+      function pickHandle(mx,my){
+        const c=canvasRef.current; if(!c) return null; const rect=c.getBoundingClientRect();
+        const x=(mx-rect.left)*(c.width/rect.width); const y=(my-rect.top)*(c.height/rect.height);
+        const hs=[{key:'product',p:art.product},{key:'logo',p:art.logo},{key:'headline',p:art.headline},{key:'subline',p:art.subline},{key:'cta',p:art.cta}];
+        for(const h of hs){const hx=(h.p.x??0.5)*c.width, hy=(h.p.y??0.5)*c.height; if(Math.hypot(hx-x,hy-y)<12) return {key:h.key, dx:x-hx, dy:y-hy};}
+        return null;
+      }
+      function onDown(e){ if(!showGuides) return; const hit=pickHandle(e.clientX,e.clientY); if(hit) setDrag(hit); }
+      function onMove(e){ if(!drag) return; const c=canvasRef.current; const rect=c.getBoundingClientRect();
+        const x=(e.clientX-rect.left)*(c.width/rect.width)-drag.dx; const y=(e.clientY-rect.top)*(c.height/rect.height)-drag.dy;
+        setArt(prev=>{const next={...prev}; const p={...(prev[drag.key]||{})}; p.x=clamp(x/c.width,0,1); p.y=clamp(y/c.height,0,1); next[drag.key]=p; return next;});
+      }
+      function onUp(){ setDrag(null); }
+      useEffect(()=>{
+        if(!currentTemplateSrc || creativeMode!=='single') return;
+        drawCanvas(products[0]).catch(err=>console.error('Canvas render failed', err));
+      },[currentTemplateSrc,brand,products,art,showGuides,copy,creativeMode]);
+
+      // EXPORT
+      async function exportPNG(){ const c = canvasRef.current; if(!c) return; const a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='creative.png'; a.click(); }
+      function escapeXML(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+      function buildSVG(productSrc, options = {}){
+  const templateSource = options.templateSrc || currentTemplateSrc;
+  if(!templateSource) return '';
+  const cache = templateCacheRef.current;
+  const baseTemplateImg = (templateSource===currentTemplateSrc && templateImg) || cache.get(templateSource);
+  if(!baseTemplateImg) return '';
+  const W=CANVAS_WIDTH; 
+  const H=CANVAS_HEIGHT;
+  const tint = brand.colors[0]||'#00eacf';
+  const bx=art.cta.x*W, by=art.cta.y*H, bw=W*art.cta.w, bh=H*art.cta.h;
+  const ctaPath = roundRectPath(bx,by,bw,bh,art.cta.radius);
+  const headlineSize = Math.round(H*0.06);
+  const sublineSize = Math.round(H*0.035);
+  const generated = generateCopy({brandName:brand.brandName, benefits, tone:toneEffective});
+
+  // Helper Google Fonts
+  const DEFAULT_HL = 'Host Grotesk';
+  const DEFAULT_BODY = 'Inter Display';
+  const gf = (s)=> (s||DEFAULT_BODY).trim().replace(/\s+/g,'+');
+  const hl = (brand.fontHeadline || DEFAULT_HL).trim();
+  const bl = (brand.fontBody || DEFAULT_BODY).trim();
+  const hasHostGrotesk = /host\s+grotesk/i.test(hl) || /host\s+grotesk/i.test(bl);
+  const googleFamilies = [];
+  if(!/host\s+grotesk/i.test(hl)) googleFamilies.push(`family=${gf(hl)}:wght@400;500;700;800;900`);
+  if(!/host\s+grotesk/i.test(bl)) googleFamilies.push(`family=${gf(bl)}:wght@400;500;700;800;900`);
+  const googleImport = googleFamilies.length ? `@import url('https://fonts.googleapis.com/css2?${googleFamilies.join('&')}&display=swap');` : '';
+  const hostImport = hasHostGrotesk ? '@import url("https://api.fontshare.com/v2/css?f[]=hostgrotesk@4,5,6,7,8&display=swap");' : '';
+
+  const esc = (s)=> (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="background:#000">
+  <defs>
+    <style>
+      ${hostImport}
+      ${googleImport}
+      .hl{font-family:'${hl}', 'Host Grotesk', sans-serif;font-weight:800;font-size:${headlineSize}px;fill:#ffffff}
+      .bl{font-family:'${bl}', 'Inter Display', sans-serif;font-weight:500;font-size:${sublineSize}px;fill:rgba(255,255,255,0.92)}
+      .ctaTxt{font-family:'${bl}', 'Inter Display', sans-serif;font-weight:700;fill:#ffffff}
+    </style>
+  </defs>
+  <defs>
+    <clipPath id="templateClip">
+      <rect x="0" y="0" width="${W}" height="${H}" rx="0" ry="0" />
+    </clipPath>
+  </defs>
+  <rect x="0" y="0" width="${W}" height="${H}" fill="#000"/>
+  <image href="${templateSource}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice" clip-path="url(#templateClip)"/>
+  <rect x="0" y="0" width="${W}" height="${H}" fill="${withAlpha(tint, art.overlayStrength)}"/>
+  ${products[0] ? `<image href="${products[0]}" x="${art.product.x*W}" y="${art.product.y*H}" transform="translate(-${W*0.3*art.product.scale},-${H*0.3*art.product.scale})" width="${W*0.6*art.product.scale}" height="${H*0.6*art.product.scale}"/>` : ''}
+  ${brand._assetsBrand?.logo ? `<image href="${brand._assetsBrand.logo}" x="${art.logo.x*W}" y="${art.logo.y*H}" width="${W*art.logo.scale}"/>` : ''}
+  <text class="hl" x="${art.headline.x*W}" y="${art.headline.y*H}">${esc(generated.headline)}</text>
+  <text class="bl" x="${art.subline.x*W}" y="${art.subline.y*H}">${esc(generated.subline)}</text>
+  <path d="${ctaPath}" fill="${tint}"/>
+  <text class="ctaTxt" x="${bx + bw/2}" y="${by + bh/2}" dominant-baseline="central" text-anchor="middle" font-size="${Math.round(bh*0.45)}">${esc(generated.cta)}</text>
+</svg>`;
+}
+
+
+      async function copySVG(){
+        const svg = buildSVG(products[0]); if(!svg) return;
+        await navigator.clipboard.writeText(svg);
+        alert('SVG copié dans le presse-papiers. Dans Figma : Cmd/Ctrl + V.');
+      }
+      function exportLayoutJSON(){
+        const json = JSON.stringify({
+          brandKit: {id: currentBrandId, name: brandNameInput, data: brand},
+          productKit: {id: currentProductId, name: productNameInput, data: {siteUrl, benefitsText: productBenefits, _assetsProduct:{products}}},
+          art,
+          copy,
+          templates: templateLibrary,
+          currentTemplateId,
+          currentTemplateSrc
+        }, null, 2);
+        const blob = new Blob([json], {type:'application/json'});
+        const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='creative_layout.json'; a.click(); URL.revokeObjectURL(url);
+      }
+
+      // Shortcuts: priorité à la carte ouverte
+      useEffect(()=>{
+        function onKey(e){
+          if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='s'){
+            e.preventDefault();
+            if(e.shiftKey){
+              if(productOpen && !benefitsTooShort) saveProductAsNew();
+              else if(!productOpen) saveBrandAsNew();
+            }else{
+              if(productOpen && dirtyProduct && !benefitsTooShort) updateProduct();
+              else if(!productOpen && dirtyBrand) updateBrand();
+            }
+          }
+        }
+        window.addEventListener('keydown', onKey);
+        return ()=>window.removeEventListener('keydown', onKey);
+      }, [dirtyBrand, dirtyProduct, productOpen, benefitsTooShort, saveProductAsNew, saveBrandAsNew, updateProduct, updateBrand]);
+
+      // UI
+      return (
+        <div className="min-h-screen">
+        <div className="app-layout max-w-6xl mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-[460px_minmax(0,1fr)]">
+            {/* LEFT */}
+        <div className="space-y-6">
+            {storageWarning && (
+              <div
+                className="px-3 py-2 text-xs rounded-md border"
+                style={{
+                    background:'rgba(248,113,113,0.15)',
+                    borderColor:'rgba(248,113,113,0.35)',
+                    color:'#fca5a5'
+                  }}
+                >
+                  {storageWarning}
+                </div>
+              )}
+              {/* Brand Kit */}
+              <Card
+                title="Brand Kit"
+                subtitle="Identité visuelle & ton."
+                collapsible
+                open={brandOpen}
+                onToggle={()=>setBrandOpen(v=>!v)}
+                bodyClassName="pb-2 md:pb-3"
+              >
+                {/* Selector */}
+                <div className="mb-4">
+                  <SectionLabel>Brand Kit</SectionLabel>
+                  <div className="flex gap-2">
+                    <select
+                      className="flex-1 px-3 py-2 rounded-md text-sm"
+                      style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      value={currentBrandId || ''}
+                      onChange={(e)=>setCurrentBrandId(e.target.value)}
+                    >
+                      {brandKits.map(k=>(
+                        <option key={k.id} value={k.id}>{k.name} — {new Date(k.updatedAt).toLocaleDateString()}</option>
+                      ))}
+                    </select>
+                    <button className="px-3 py-2 rounded-md btn-ghost text-sm whitespace-nowrap" onClick={deleteBrand}>Delete</button>
+                  </div>
+                </div>
+
+                <SectionLabel>Brand Logo</SectionLabel>
+                <Dropzone
+                  onFiles={handleLogoFiles}
+                  accept="image/*"
+                  hint="Upload Logo"
+                  previews={logo ? [logo] : []}
+                  onRemove={()=>setBrand(b=>({...b, _assetsBrand:{...(b._assetsBrand||{}), logo:''}}))}
+                  previewSize={110}
+                />
+
+                <div className="mt-5">
+                  <SectionLabel>Brand Colors</SectionLabel>
+                  <div className="flex flex-col gap-2">
+                    {brand.colors.map((c,i)=> (
+                      <div key={i} className="flex items-center gap-2">
+                        <input type="color" value={c} onChange={(e)=>setBrand(b=>{const colors=[...b.colors]; colors[i]=e.target.value; return {...b, colors};})} className="color-picker" />
+                        <input value={c} onChange={(e)=>setBrand(b=>{const colors=[...b.colors]; colors[i]=e.target.value; return {...b, colors};})} className="flex-1 px-3 py-2 rounded-md text-sm" style={{background:'var(--bg)', border:'1px solid var(--border)'}} />
+                        <button className="px-2 py-1 text-xs rounded-md btn-ghost" onClick={()=>setBrand(b=>({...b, colors:b.colors.filter((_,j)=>j!==i)}))}>Suppr</button>
+                      </div>
+                    ))}
+                    <button onClick={()=>setBrand(b=>({...b, colors:[...b.colors, '#00eacf']}))} className="self-start mt-1 px-3 py-2 rounded-md btn-primary text-sm font-semibold">+ Ajouter une couleur</button>
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  {/* Typography */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5">
+                    <div>
+                      <SectionLabel>Font — Headline</SectionLabel>
+                      <input
+                        placeholder="Host Grotesk"
+                        value={brand.fontHeadline}
+                        onChange={(e)=>setBrand({...brand, fontHeadline:e.target.value})}
+                        className="w-full px-3 py-2 rounded-md text-sm"
+                        style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      />
+                    </div>
+                    <div>
+                      <SectionLabel>Font — Body</SectionLabel>
+                      <input
+                        placeholder="Inter Display"
+                        value={brand.fontBody}
+                        onChange={(e)=>setBrand({...brand, fontBody:e.target.value})}
+                        className="w-full px-3 py-2 rounded-md text-sm"
+                        style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      />
+                    </div>
+                    <p className="text-[11px] md:col-span-2" style={{color:'var(--muted)'}}>
+                      Indique le nom exact de la police (Google Fonts ou Fontshare). Ex&nbsp;: Host Grotesk, Inter Display.
+                    </p>
+                  </div>
+
+                  <SectionLabel>Tone of Voice (libre)</SectionLabel>
+                  <input
+                    placeholder="audacieux, premium, direct, minimal..."
+                    value={brand.toneFree}
+                    onChange={(e)=>setBrand({...brand, toneFree:e.target.value})}
+                    className="w-full px-3 py-2 rounded-md text-sm"
+                    style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                  />
+                </div>
+
+                <div className="mt-5">
+                  <SectionLabel>Brand Name</SectionLabel>
+                  <input
+                    placeholder="Votre marque"
+                    value={brand.brandName}
+                    onChange={(e)=>setBrand({...brand, brandName:e.target.value})}
+                    className="w-full px-3 py-2 rounded-md text-sm"
+                    style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                  />
+                </div>
+
+                {/* Save controls (Brand) */}
+                <div className="mt-6 pt-4 border-t rounded-b-xl" style={{borderColor:'var(--border)'}}>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input
+                      className="flex-1 px-3 py-2 rounded-md text-sm min-w-0"
+                      style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      placeholder="Nom du Brand Kit"
+                      value={brandNameInput}
+                      onChange={(e)=>setBrandNameInput(e.target.value)}
+                    />
+                    <button onClick={updateBrand} disabled={!dirtyBrand} className="px-4 py-2 rounded-xl font-semibold text-sm btn-ghost whitespace-nowrap shrink-0">Update</button>
+                    <button onClick={saveBrandAsNew} className="px-4 py-2 rounded-xl text-sm font-semibold btn-primary whitespace-nowrap shrink-0">Save as new</button>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1 text-[11px]" style={{color:'var(--muted)'}}>
+                    <span>Dernière sauvegarde : {new Date(currentBrandKit?.updatedAt || Date.now()).toLocaleString()}</span>
+                      {savedFlash && (
+                        <span
+                          className="px-1.5 py-0.5 rounded-md text-[10px]"
+                          style={{ background: 'rgba(34,197,94,0.15)', color: '#16a34a' }}
+                        >
+                          Sauvegardé ✓
+                        </span>
+                      )}
+
+                  </div>
+                </div>
+              </Card>
+
+              {/* Product Details */}
+              <Card
+                title="Product Details"
+                subtitle="Infos produit propres à ce kit."
+                collapsible
+                open={productOpen}
+                onToggle={()=>setProductOpen(v=>!v)}
+                bodyClassName="pb-2 md:pb-3"
+              >
+                {/* Selector */}
+                <div className="mb-4">
+                  <SectionLabel>Product Profile</SectionLabel>
+                  <div className="flex gap-2">
+                    <select
+                      className="flex-1 px-3 py-2 rounded-md text-sm"
+                      style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      value={currentProductId || ''}
+                      onChange={(e)=>setCurrentProductId(e.target.value)}
+                    >
+                      {productKits.map(k=>(
+                        <option key={k.id} value={k.id}>{k.name} — {new Date(k.updatedAt).toLocaleDateString()}</option>
+                      ))}
+                    </select>
+                    <button className="px-3 py-2 rounded-md btn-ghost text-sm whitespace-nowrap" onClick={deleteProduct}>Delete</button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-5">
+                  <div>
+                    <SectionLabel>Product URL</SectionLabel>
+                    <input
+                      placeholder="https://votre-site.com/produit"
+                      value={siteUrl}
+                      onChange={(e)=>setSiteUrl(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md text-sm"
+                      style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                    />
+                  </div>
+                  <div>
+                    <SectionLabel>Product Benefits</SectionLabel>
+                    <textarea
+                      rows="5"
+                      placeholder="Une ligne par bénéfice"
+                      value={productBenefits}
+                      onChange={(e)=>setProductBenefits(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md text-sm"
+                      style={{background:'var(--bg)', border: benefitsTooShort ? '1px solid #f87171' : '1px solid var(--border)'}}
+                    ></textarea>
+                    <div className="flex items-end justify-between mt-1 text-[11px]" style={{color: benefitsTooShort ? '#f87171' : 'var(--muted)'}}>
+                      <span>{benefitsTooShort ? `⚠️ ${MIN_BENEFITS_LENGTH - benefitsLength} caractère(s) à ajouter (minimum ${MIN_BENEFITS_LENGTH}).` : 'Objectif : au moins 80 caractères pour décrire vos bénéfices.'}</span>
+                      <span>{benefitsLength} caractère(s)</span>
+                    </div>
+                  </div>
+                  <div>
+                    <SectionLabel>Images produit</SectionLabel>
+                    <Dropzone
+                      onFiles={handleProductFiles}
+                      accept="image/*"
+                      multiple
+                      hint="Vos images produit"
+                      previews={products}
+                      onRemove={(idx)=>setProducts(arr=>arr.filter((_,i)=>i!==idx))}
+                    />
+                  </div>
+                </div>
+
+                {/* Save controls (Product) */}
+                <div className="mt-6 pt-4 border-t rounded-b-xl" style={{borderColor:'var(--border)'}}>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <input
+                      className="flex-1 px-3 py-2 rounded-md text-sm min-w-0"
+                      style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                      placeholder="Nom du Product Profile"
+                      value={productNameInput}
+                      onChange={(e)=>setProductNameInput(e.target.value)}
+                    />
+                    <button onClick={updateProduct} disabled={!dirtyProduct || benefitsTooShort} className="px-4 py-2 rounded-xl font-semibold text-sm btn-ghost whitespace-nowrap shrink-0">Update</button>
+                    <button onClick={saveProductAsNew} disabled={benefitsTooShort} className="px-4 py-2 rounded-xl text-sm font-semibold btn-primary whitespace-nowrap shrink-0">Save as new</button>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1 text-[11px]" style={{color:'var(--muted)'}}>
+                    <span>Dernière sauvegarde : {new Date(currentProductKit?.updatedAt || Date.now()).toLocaleString()}</span>
+                      {savedFlash && (
+                        <span
+                          className="px-1.5 py-0.5 rounded-md text-[10px]"
+                          style={{ background: 'rgba(34,197,94,0.15)', color: '#16a34a' }}
+                        >
+                          Sauvegardé ✓
+                        </span>
+                      )}
+                  </div>
+                </div>
+              </Card>
+
+              {/* Creative Studio */}
+              <Card title="Creative Studio" subtitle="Recréez une publicité ou lancez une série complète.">
+                <div className="flex items-center gap-2 mb-4">
+                  <button
+                    onClick={()=>{setCreativeMode('single'); setBatchMessage('');}}
+                    className={`px-3 py-2 rounded-lg text-sm font-semibold ${creativeMode==='single' ? 'btn-primary' : 'btn-ghost'}`}
+                  >
+                    Single Creative
+                  </button>
+                  <button
+                    onClick={()=>{setCreativeMode('batch'); setBatchMessage('');}}
+                    className={`px-3 py-2 rounded-lg text-sm font-semibold ${creativeMode==='batch' ? 'btn-primary' : 'btn-ghost'}`}
+                  >
+                    Batch Creatives
+                  </button>
+                </div>
+
+                <SectionLabel>Templates sources</SectionLabel>
+                <p className="text-xs mb-2" style={{color:'var(--muted)'}}>
+                  Glissez-déposez vos templates {creativeMode==='batch' ? 'pour la série' : 'pour cette créative'}. Formats acceptés : PNG, JPG, WEBP.
+                </p>
+                <Dropzone
+                  onFiles={handleTemplateFiles}
+                  accept="image/*"
+                  multiple={creativeMode==='batch'}
+                  hint={creativeMode==='batch' ? 'Templates de référence' : 'Template de référence'}
+                  previews={templatePreviews}
+                  onRemove={handleTemplateRemove}
+                  onPreviewClick={creativeMode==='batch' ? handleTemplatePreviewClick : undefined}
+                  selectedIndex={selectedTemplateIndex}
+                />
+                {creativeMode==='batch' && templateLibrary.length > 0 && (
+                  <p className="text-[11px] mt-2" style={{color:'var(--muted)'}}>
+                    Templates chargés : {templateLibrary.length}. Cliquez sur une miniature pour la prévisualiser.
+                  </p>
+                )}
+
+                {creativeMode==='single' ? (
+                  <>
+                    <div className="mt-6">
+                      <GenerateButton
+                        label="Generate Creative"
+                        onClick={()=>drawCanvas(products[0]).catch(err=>console.error('Render failed', err))}
+                        disabled={!currentTemplateSrc || benefitsTooShort}
+                      />
+                    </div>
+                    <div className="mt-4 text-xs" style={{color:'var(--muted)'}}>Astuce: déplacez les repères directement dans l'aperçu.</div>
+                  </>
+                ) : (
+                  <div className="mt-6 space-y-4">
+                    <div>
+                      <SectionLabel>Volume</SectionLabel>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range"
+                          min="1"
+                          max={MAX_BATCH}
+                          value={batchCount}
+                          onChange={(e)=>{setBatchCount(Number(e.target.value)); setBatchMessage('');}}
+                          className="flex-1"
+                        />
+                        <input
+                          type="number"
+                          min="1"
+                          max={MAX_BATCH}
+                          value={batchCount}
+                          onChange={(e)=>{
+                            const next = parseInt(e.target.value||'0', 10);
+                            setBatchCount(clamp(isNaN(next)?1:next, 1, MAX_BATCH));
+                            setBatchMessage('');
+                          }}
+                          className="w-20 px-3 py-2 rounded-md text-sm"
+                          style={{background:'var(--bg)', border:'1px solid var(--border)'}}
+                        />
+                      </div>
+                      <p className="text-[11px] mt-1" style={{color:'var(--muted)'}}>
+                        Choisissez librement le volume de créatives à produire (jusqu'à {MAX_BATCH}).
+                      </p>
+                    </div>
+
+                    <GenerateButton
+                      label={`Générer ${batchCount} créatives`}
+                      loading={isBatchGenerating}
+                      loadingLabel="Génération…"
+                      onClick={handleBatchGenerate}
+                      disabled={!templateLibrary.length || benefitsTooShort}
+                    />
+
+                    {batchMessage && (
+                      <div className="text-xs" style={{color: batchMessage.includes('Impossible') ? '#f87171' : 'var(--muted)'}}>
+                        {batchMessage}
+                      </div>
+                    )}
+                    {!templateLibrary.length && !batchMessage && (
+                      <div className="text-xs" style={{color:'#f97316'}}>
+                        Ajoutez un template pour activer la génération en lot.
+                      </div>
+                    )}
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* RIGHT Preview */}
+            <div>
+              {creativeMode==='single' ? (
+                <>
+                  <div
+                    className="w-full mx-auto aspect-[9/16] rounded-2xl overflow-hidden flex items-center justify-center"
+                    style={{
+                      background:'color-mix(in srgb, var(--card) 94%, transparent)',
+                      border:'1px solid var(--border)',
+                      maxHeight:'70vh',
+                      maxWidth:'calc(70vh * 9 / 16)'
+                    }}
+                  >
+                    {currentTemplateSrc ? (
+                      <canvas
+                        ref={canvasRef}
+                        className="w-full h-full cursor-grab active:cursor-grabbing"
+                        onMouseDown={onDown}
+                        onMouseMove={onMove}
+                        onMouseUp={onUp}
+                        onMouseLeave={onUp}
+                      />
+                    ) : (
+                      <div className="text-sm" style={{color:'var(--muted)'}}>Votre rendu apparaîtra ici.</div>
+                    )}
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={exportPNG}
+                      disabled={!templateImg}
+                      className="px-3 py-2 rounded-xl btn-ghost"
+                    >
+                      Export PNG
+                    </button>
+                    <button
+                      onClick={copySVG}
+                      disabled={!templateImg}
+                      className="px-3 py-2 rounded-xl btn-ghost"
+                    >
+                      Copier SVG pour Figma
+                    </button>
+                  </div>
+
+                  {/* Product thumbnails intentionally hidden */}
+                </>
+              ) : (
+                <div className="space-y-4">
+                  <div
+                    className="rounded-2xl"
+                    style={{background:'transparent', border:'none'}}
+                  >
+                    {isBatchGenerating ? (
+                      <div className="h-[70vh] flex items-center justify-center text-sm" style={{color:'var(--muted)'}}>
+                        Génération en cours…
+                      </div>
+                    ) : batchCreatives.length ? (
+                      <div className="max-h-[70vh] overflow-y-auto p-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {batchCreatives.map((item,index)=>(
+                            <div
+                              key={item.id}
+                              className="flex flex-col items-center gap-3 w-full"
+                            >
+                              <div
+                                className="w-full mx-auto aspect-[9/16] rounded-2xl overflow-hidden flex items-center justify-center"
+                                style={{
+                                  background:'color-mix(in srgb, var(--card) 94%, transparent)',
+                                  border:'1px solid var(--border)',
+                                  maxHeight:'60vh',
+                                  maxWidth:'min(calc(60vh * 9 / 16), 320px)'
+                                }}
+                              >
+                                <img
+                                  src={item.preview}
+                                  alt={`Creative ${index+1}`}
+                                  className="h-full w-full object-cover"
+                                />
+                              </div>
+                              <div className="w-full max-w-[320px] p-3 text-xs space-y-2 rounded-2xl border" style={{borderColor:'var(--border)', background:'color-mix(in srgb, var(--bg) 80%, transparent)'}}>
+                                <div className="flex items-center justify-between gap-2 text-[11px]" style={{color:'var(--muted)'}}>
+                                  <span>Creative #{index+1}</span>
+                                  {item.productIndex!=null && <span>Produit #{item.productIndex + 1}</span>}
+                                </div>
+                                {item.templateLabel && (
+                                  <div className="text-[11px]" style={{color:'var(--muted)'}}>
+                                    Template : {item.templateLabel}
+                                  </div>
+                                )}
+                                <div className="font-semibold" style={{color:'var(--ink)'}}>{item.copy.headline}</div>
+                                <div style={{color:'var(--muted)'}}>{item.copy.cta}</div>
+                                <a
+                                  href={item.preview}
+                                  download={`creative-batch-${index+1}.png`}
+                                  className="inline-flex items-center justify-center px-2 py-1 rounded-lg btn-ghost w-full"
+                                >
+                                  Télécharger PNG
+                                </a>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="h-[70vh] flex items-center justify-center">
+                        <div className="flex flex-col items-center gap-3">
+                          <div
+                            className="w-full mx-auto aspect-[9/16] rounded-2xl overflow-hidden flex items-center justify-center"
+                            style={{
+                              background:'color-mix(in srgb, var(--card) 94%, transparent)',
+                              border:'1px solid var(--border)',
+                              maxHeight:'60vh',
+                              maxWidth:'min(calc(60vh * 9 / 16), 320px)',
+                              color:'var(--muted)'
+                            }}
+                          >
+                            <div className="text-sm px-6 text-center">
+                              Votre rendu apparaîtra ici.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {batchCreatives.length > 0 && (
+                    <div className="text-xs" style={{color:'var(--muted)'}}>
+                      Conseil : téléchargez chaque variation ou récupérez les URLs depuis l’inspecteur réseau selon vos besoins.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+          </div>
+
+          <footer className="text-center text-[11px] py-6" style={{color:'var(--muted)'}}>
+            <span>Développé par Théo Serra - Media Buyer & Creative Strategist Meta</span>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App/>);
+  </script>
+</body>
+</html>

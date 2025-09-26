@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ad Studio – Inspiration</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=hostgrotesk@4,5,6,7&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Display:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Styles + thèmes -->
+  <style>
+    :root{
+      /* Thème sombre (par défaut) */
+      --bg:#0b1020;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#e5e7eb;
+      --muted:#9aa3b2;
+      --accent1:#00eacf;
+      --accent2:#00eacf;
+      --warning:#facc15;
+      --ghostBg:#111827;
+    }
+    :root[data-theme="light"]{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --ink:#0b1020;
+      --muted:#6b7280;
+      --accent1:#00eacf;
+      --accent2:#00eacf;
+      --warning:#ca8a04;
+      --ghostBg:#f3f4f6;
+      --headerBg:#ffffff;
+      --dropzoneBg:color-mix(in srgb, #ffffff 92%, #cbd5f5 8%);
+    }
+    :root{
+      --headerBg:color-mix(in srgb, var(--card) 96%, transparent);
+      --dropzoneBg:color-mix(in srgb, var(--bg) 85%, #000 15%);
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:"Inter Display", "Inter", "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-weight:400;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    h1,h2,h3,h4,h5,h6,
+    .heading-font{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      font-weight:700;
+    }
+    a{color:inherit; text-decoration:none;}
+    .card{background:color-mix(in srgb, var(--card) 95%, transparent);border:1px solid var(--border);}    
+    .btn-primary{background:#00eacf; color:#022c22; transition:filter .25s ease;}
+    .btn-primary:hover{filter:brightness(1.08);}
+    .btn-ghost{background:var(--ghostBg); border:1px solid var(--border); color:var(--ink); transition:filter .25s ease;}
+    .btn-ghost:hover{filter:brightness(1.06);}
+    .tab-btn{
+      border:1px solid var(--border);
+      background:var(--ghostBg);
+      color:var(--muted);
+      padding:0.55rem 1.3rem;
+      border-radius:999px;
+      font-weight:600;
+      font-size:0.9rem;
+      transition:all .2s ease;
+    }
+    .tab-btn[data-active="true"]{
+      background:#00eacf;
+      color:#022c22;
+      border-color:#00eacf;
+      box-shadow:0 14px 30px rgba(0,234,207,0.28);
+    }
+    .save-btn{
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--ghostBg);
+      color:var(--ink);
+      border-radius:0.85rem;
+      padding:0.65rem 1rem;
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .save-btn[data-state="saved"]{
+      background:rgba(34,197,94,0.18);
+      border-color:rgba(34,197,94,0.48);
+      color:#4ade80;
+    }
+    .sidebar{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      background:var(--card);
+      border-right:1px solid var(--border);
+      box-shadow:none;
+    }
+    .sidebar-inner{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:2.25rem;
+      padding:2rem 1.5rem;
+    }
+    .sidebar-actions{
+      margin-top:auto;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    @media (min-width:768px){
+      .sidebar{
+        width:17.5rem;
+        position:sticky;
+        top:0;
+        height:100vh;
+        max-height:100vh;
+        flex-shrink:0;
+        align-self:flex-start;
+      }
+      .sidebar-inner{
+        padding:2.4rem 1.8rem;
+        gap:2.6rem;
+      }
+    }
+    .sidebar-nav{
+      display:flex;
+      flex-direction:column;
+      gap:0.9rem;
+      font-weight:600;
+      font-size:0.9rem;
+      letter-spacing:0.02em;
+    }
+    .sidebar-link{
+      display:flex;
+      align-items:center;
+      gap:0.65rem;
+      padding:0.78rem 0.85rem;
+      border-radius:0.6rem;
+      color:var(--muted);
+      transition:all .2s ease;
+    }
+    .sidebar-icon{
+      inline-size:1.1rem;
+      block-size:1.1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:inherit;
+      opacity:0.9;
+    }
+    .sidebar-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+    #upgrade-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+    #upgrade-btn .upgrade-icon{
+      inline-size:1rem;
+      block-size:1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #upgrade-btn .upgrade-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+    .sidebar-link:hover{
+      color:var(--ink);
+      background:var(--ghostBg);
+    }
+    .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.12);
+      color:#f8fafc;
+      box-shadow:none;
+    }
+    :root[data-theme="light"] .sidebar{
+      background:#0b1020 !important;
+      border-color:rgba(15,23,42,0.85) !important;
+      color:#f9fafb;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#f9fafb;
+      --muted:rgba(226,232,240,0.68);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link{
+      color:rgba(226,232,240,0.78);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link:hover{
+      background:rgba(255,255,255,0.08);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.14);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-icon{
+      color:inherit;
+    }
+  </style>
+
+  <!-- Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="min-h-screen flex flex-col md:flex-row">
+    <aside class="sidebar border-b md:border-b-0 md:border-r" style="border-color:var(--border); background:var(--card);">
+      <div class="sidebar-inner">
+        <a href="#top" class="flex items-center gap-3 text-base font-semibold">
+          <img src="Adshelplogo.png" alt="Ads help logo" class="h-10 w-auto">
+        </a>
+        <nav class="sidebar-nav">
+          <a href="tutorials.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M5 5.2A1.7 1.7 0 0 1 6.7 3.5H12v17H6.7A1.7 1.7 0 0 1 5 18.8V5.2Z"/>
+                <path fill="currentColor" d="M12 3.5h5.3A1.7 1.7 0 0 1 19 5.2v13.6c0-.94-.76-1.7-1.7-1.7H12V3.5Z"/>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+          <a href="index.html#production" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="7" r="2" fill="currentColor"/>
+                <circle cx="15" cy="17" r="2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>Production</span>
+          </a>
+          <a href="inspiration.html" class="sidebar-link" data-active="true">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m11.8 2 1.9 5.2L19 9l-5.3 1.9-1.9 5.2-1.9-5.2L4.6 9l5.3-1.8L11.8 2Z"/>
+                <path fill="currentColor" d="m6.2 14.2.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z" opacity="0.7"/>
+              </svg>
+            </span>
+            <span>Inspiration</span>
+          </a>
+          <a href="plan.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M8.5 3.5h7a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M9 9h6M9 13h6M9 17h3"/>
+                <path fill="currentColor" d="M10 2h4v2h-4z"/>
+              </svg>
+            </span>
+            <span>Plan</span>
+          </a>
+          <a href="settings.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm0-5.5 1.1 1.9 2.2-.3.9 2.1 2-.4.3 2.3 2 1-1 2 1 2-2 1 .3 2.3-2 .4-.9 2.1-2.2-.3L12 22l-1.1-1.9-2.2.3-.9-2.1-2 .4-.3-2.3-2-1 1-2-1-2 2-1-.3-2.3 2-.4.9-2.1 2.2.3L12 4Z"/>
+              </svg>
+            </span>
+            <span>Settings</span>
+          </a>
+          <a href="https://tally.so/r/woWpj1" class="sidebar-link" target="_blank" rel="noopener">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m12 3.2 2.1 4.9 5.3.5-4 3.4 1.2 5.2-4.6-2.7-4.6 2.7 1.2-5.2-4-3.4 5.3-.5L12 3.2Z"/>
+              </svg>
+            </span>
+            <span>Featured Request</span>
+          </a>
+        </nav>
+        <div class="sidebar-actions">
+          <a href="plan.html" id="upgrade-btn" class="px-4 rounded-xl btn-primary font-semibold text-sm inline-flex items-center justify-start" style="padding-top:0.95rem; padding-bottom:0.95rem; gap:0.6rem;">
+            <span class="upgrade-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M13.9 2 6 13.3h5.3L10.1 22l7.9-11.3h-5.3L13.9 2Z"/>
+              </svg>
+            </span>
+            <span>Upgrade</span>
+          </a>
+          <div class="card rounded-2xl p-4 space-y-2 text-sm" style="background:color-mix(in srgb, var(--card) 94%, transparent)">
+            <div class="text-base font-semibold">Théo Serra</div>
+            <div class="text-xs" style="color:var(--muted)">theo@adstudio.com</div>
+            <div class="text-xs" style="color:var(--muted)">12 / 100 créatives restantes</div>
+            <div class="h-2 rounded-full overflow-hidden" style="background:color-mix(in srgb, var(--card) 75%, transparent); border:1px solid color-mix(in srgb, var(--border) 70%, transparent);">
+              <div style="width:12%; height:100%; background:var(--accent1);"></div>
+            </div>
+            <div class="text-[10px] uppercase tracking-wide" style="color:var(--muted)">12 % du quota utilisé</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+      <main class="flex-1">
+        <div id="top"></div>
+
+        <div class="flex justify-end px-4 md:px-6 pt-4">
+          <button id="theme-toggle" class="px-3 py-2 rounded-xl btn-ghost text-sm">☼ Light</button>
+        </div>
+
+        <section class="max-w-6xl mx-auto px-4 md:px-6 pt-3 pb-0">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Creative Inspiration
+          </h1>
+          <p class="text-base md:text-lg mt-2" style="color:var(--muted)">
+            Save time and money on your static production.
+          </p>
+        </section>
+
+        <section class="flex-1" style="background:color-mix(in srgb, var(--bg) 94%, transparent)">
+          <div class="max-w-6xl mx-auto px-4 md:px-6 py-8 space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div class="flex items-center gap-2">
+                <button class="tab-btn js-tab-button" data-tab="all" data-active="true">Toutes les créatives</button>
+                <button class="tab-btn js-tab-button" data-tab="favorites" data-active="false">Mes favoris</button>
+              </div>
+              <p class="text-sm" style="color:var(--muted)">Cliquez sur « Enregistrer cette créative » pour la ranger dans vos favoris (stockage local seulement).</p>
+            </div>
+
+            <div id="tab-all" class="space-y-6">
+              <div id="gallery-grid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"></div>
+            </div>
+
+            <div id="tab-favorites" class="space-y-6 hidden">
+              <div id="favorites-empty" class="rounded-3xl border p-10 text-center text-sm" style="border-color:var(--border); color:var(--muted); background:color-mix(in srgb, var(--card) 92%, transparent)">
+                Aucune créative enregistrée pour le moment. Ajoutez vos meilleures trouvailles depuis l’onglet principal.
+              </div>
+              <div id="favorites-grid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t" style="border-color:var(--border)">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 py-6 flex justify-center text-xs" style="color:var(--muted)">
+          <span>Développé par Théo Serra - Media Buyer & Creative Strategist Meta</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Toggle Light/Dark persistant -->
+  <script>
+  (function(){
+    const KEY = 'theme';
+    const btn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    const stored = localStorage.getItem(KEY);
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = stored || (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', initial);
+    updateBtn(initial);
+    btn?.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') === 'light') ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(KEY, next);
+      updateBtn(next);
+    });
+    function updateBtn(theme){ if(btn) btn.textContent = theme === 'light' ? '☾ Dark' : '☼ Light'; }
+  })();
+  </script>
+
+  <script>
+  (function(){
+    const STORAGE_KEY = 'inspiration-favorites-v1';
+    const DATA = [
+      { id:'creative-01', format:'9:16', image:'assets/inspiration/exemple1.webp' },
+      { id:'creative-02', format:'9:16', image:'assets/inspiration/exemple2.webp' },
+      { id:'creative-03', format:'9:16', image:'assets/inspiration/exemple3.webp' },
+      { id:'creative-04', format:'1:1', image:'assets/inspiration/exemple4.webp' },
+      { id:'creative-05', format:'1:1', image:'assets/inspiration/exemple5.webp' },
+      { id:'creative-06', format:'1:1', image:'assets/inspiration/exemple6.webp' },
+      { id:'creative-07', format:'1:1', image:'assets/inspiration/exemple7.jpg' },
+      { id:'creative-08', format:'1:1', image:'assets/inspiration/exemple8.png' },
+      { id:'creative-09', format:'1:1', image:'assets/inspiration/exemple9.png' },
+      { id:'creative-10', format:'1:1', image:'assets/inspiration/exemple10.png' },
+      { id:'creative-12', format:'1:1', image:'assets/inspiration/exemple12.jpg' },
+      { id:'creative-13', format:'1:1', image:'assets/inspiration/exemple13.jpg' },
+      { id:'creative-14', format:'1:1', image:'assets/inspiration/exemple14.jpg' },
+      { id:'creative-16', format:'1:1', image:'assets/inspiration/exemple16.jpg' },
+      { id:'creative-18', format:'1:1', image:'assets/inspiration/exemple18.jpg' },
+      { id:'creative-17', format:'9:16', image:'assets/inspiration/exemple17.jpg' },
+      { id:'creative-21', format:'9:16', image:'assets/inspiration/exemple21.jpg' },
+      { id:'creative-22', format:'9:16', image:'assets/inspiration/exemple22.jpg' },
+      { id:'creative-19', format:'1:1', image:'assets/inspiration/exemple19.jpg' },
+      { id:'creative-20', format:'1:1', image:'assets/inspiration/exemple20.jpg' },
+    ];
+
+
+
+    const tabButtons = document.querySelectorAll('.js-tab-button');
+    const sectionAll = document.getElementById('tab-all');
+    const sectionFav = document.getElementById('tab-favorites');
+    const gridAll = document.getElementById('gallery-grid');
+    const gridFav = document.getElementById('favorites-grid');
+    const emptyState = document.getElementById('favorites-empty');
+
+    let favorites = new Set();
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      if(Array.isArray(stored)) favorites = new Set(stored);
+    } catch (err) {
+      favorites = new Set();
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        tabButtons.forEach(b => b.dataset.active = b === btn ? 'true' : 'false');
+        if(target === 'favorites'){
+          sectionAll.classList.add('hidden');
+          sectionFav.classList.remove('hidden');
+        } else {
+          sectionAll.classList.remove('hidden');
+          sectionFav.classList.add('hidden');
+        }
+      });
+    });
+
+    function saveFavorites(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(favorites)));
+    }
+
+    function updateButtonState(btn, saved){
+      if(!btn) return;
+      btn.dataset.state = saved ? 'saved' : 'idle';
+      btn.textContent = saved ? 'Retirer de mes favoris' : 'Enregistrer cette créative';
+    }
+
+    function createCard(item, saved){
+      const article = document.createElement('article');
+      article.className = 'card rounded-3xl overflow-hidden flex flex-col';
+      const aspectClass = item.format === '1:1' ? 'aspect-square' : (item.format === '4:5' ? 'aspect-[4/5]' : 'aspect-[9/16]');
+      article.innerHTML = `
+        <div class="${aspectClass} bg-black/30">
+          <img src="${item.image}" alt="Creative ${item.id}" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-4">
+          <button type="button" class="save-btn" data-action="toggle"></button>
+        </div>
+      `;
+      const toggleBtn = article.querySelector('[data-action="toggle"]');
+      updateButtonState(toggleBtn, saved);
+      toggleBtn.addEventListener('click', () => {
+        toggleFavorite(item.id);
+      });
+      return article;
+    }
+
+    function renderFavoritesGrid(){
+      const items = DATA.filter(item => favorites.has(item.id));
+      gridFav.innerHTML = '';
+      if(!items.length){
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+      items.forEach(item => gridFav.appendChild(createCard(item, true)));
+    }
+
+    function renderAllGrid(){
+      gridAll.innerHTML = '';
+      DATA.forEach(item => gridAll.appendChild(createCard(item, favorites.has(item.id))));
+    }
+
+    function render(){
+      renderAllGrid();
+      renderFavoritesGrid();
+    }
+
+    function toggleFavorite(id){
+      if(favorites.has(id)){
+        favorites.delete(id);
+      } else {
+        favorites.add(id);
+      }
+      saveFavorites();
+      render();
+    }
+
+    render();
+  })();
+  </script>
+
+</body>
+</html>
