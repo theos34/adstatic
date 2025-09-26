@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ad Studio – Dashboard</title>
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=hostgrotesk@4,5,6,7&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Display:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#e5e7eb;
+      --muted:#9aa3b2;
+      --accent1:#00eacf;
+      --ghostBg:#111827;
+    }
+    :root[data-theme="light"]{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --ink:#0b1020;
+      --muted:#6b7280;
+      --accent1:#00eacf;
+      --ghostBg:#f3f4f6;
+    }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:"Inter Display", "Inter", "Plus Jakarta Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-weight:400;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    h1,h2,h3,h4,h5,h6,
+    .heading-font{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      font-weight:700;
+    }
+    a{color:inherit; text-decoration:none;}
+    .card{background:color-mix(in srgb, var(--card) 95%, transparent); border:1px solid var(--border);}
+    .btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:0.5rem;
+      background:var(--ghostBg);
+      border:1px solid var(--border);
+      color:var(--ink);
+      font-weight:600;
+      border-radius:0.9rem;
+      padding:0.65rem 1.2rem;
+      transition:filter .25s ease;
+    }
+    .btn-ghost:hover{filter:brightness(1.06);}
+    .sidebar{
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      background:var(--card);
+      border-right:1px solid var(--border);
+      box-shadow:none;
+    }
+    .sidebar-inner{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      gap:2.25rem;
+      padding:2rem 1.5rem;
+    }
+    .sidebar-actions{
+      margin-top:auto;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    @media (min-width:768px){
+      .sidebar{
+        width:17.5rem;
+        position:sticky;
+        top:0;
+        height:100vh;
+        max-height:100vh;
+        flex-shrink:0;
+        align-self:flex-start;
+      }
+      .sidebar-inner{
+        padding:2.4rem 1.8rem;
+        gap:2.6rem;
+      }
+    }
+    .sidebar-nav{
+      display:flex;
+      flex-direction:column;
+      gap:0.9rem;
+      font-weight:600;
+      font-size:0.9rem;
+      letter-spacing:0.02em;
+    }
+    .sidebar-link{
+      display:flex;
+      align-items:center;
+      gap:0.65rem;
+      padding:0.78rem 0.85rem;
+      border-radius:0.6rem;
+      color:var(--muted);
+      transition:all .2s ease;
+    }
+    .sidebar-link:hover{
+      color:var(--ink);
+      background:var(--ghostBg);
+    }
+    .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.12);
+      color:#f8fafc;
+    }
+    :root[data-theme="light"] .sidebar{
+      background:#0b1020 !important;
+      border-color:rgba(15,23,42,0.85) !important;
+      color:#f9fafb;
+      --card:#0e1625;
+      --border:#253047;
+      --ink:#f9fafb;
+      --muted:rgba(226,232,240,0.68);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link{
+      color:rgba(226,232,240,0.78);
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link:hover{
+      background:rgba(255,255,255,0.08);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-link[data-active="true"]{
+      background:rgba(255,255,255,0.14);
+      color:#ffffff;
+    }
+    :root[data-theme="light"] .sidebar .sidebar-icon{
+      color:inherit;
+    }
+    .sidebar-icon{
+      inline-size:1.1rem;
+      block-size:1.1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:inherit;
+      opacity:0.9;
+    }
+    .sidebar-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+    .btn-primary{
+      background:#00eacf;
+      color:#022c22;
+      transition:filter .25s ease;
+    }
+    .btn-primary:hover{
+      filter:brightness(1.08);
+    }
+    :root{
+      --upgrade-title:color-mix(in srgb, var(--ink) 84%, var(--accent1) 16%);
+      --upgrade-copy:color-mix(in srgb, var(--muted) 66%, var(--accent1) 34%);
+    }
+    .cta-card-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:1rem;
+    }
+    .upgrade-banner{
+      border-radius:1.6rem;
+      padding:1.1rem 1.4rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.85rem;
+      background:linear-gradient(140deg, rgba(6,24,32,0.94), rgba(15,53,60,0.96));
+      border:2px solid #00f7eb;
+    }
+    .upgrade-banner__row{
+      display:flex;
+      gap:1rem;
+      align-items:flex-start;
+      font-size:0.85rem;
+      color:var(--upgrade-copy);
+    }
+    .upgrade-banner__icon{
+      inline-size:2.25rem;
+      block-size:2.25rem;
+      border-radius:0.85rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+      background:rgba(0,247,235,0.18);
+      color:#00f7eb;
+      flex-shrink:0;
+    }
+    .upgrade-banner__title{
+      font-size:1.05rem;
+      font-weight:700;
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+      color:var(--upgrade-title);
+    }
+    .upgrade-banner__desc{
+      font-size:0.78rem;
+      color:var(--upgrade-copy);
+      max-width:28rem;
+    }
+    .upgrade-banner__cta{
+      align-self:flex-start;
+      display:inline-flex;
+      align-items:center;
+      gap:0.4rem;
+      font-size:0.8rem;
+      font-weight:600;
+      padding:0.5rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(0,247,235,0.55);
+      background:rgba(0,247,235,0.16);
+      color:#00f7eb;
+      transition:transform .2s ease, filter .2s ease;
+    }
+    .upgrade-banner__cta:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.08);
+    }
+    :root[data-theme="light"]{
+      --upgrade-title:rgba(236,254,255,0.94);
+      --upgrade-copy:rgba(190,247,242,0.82);
+    }
+    :root[data-theme="light"] .upgrade-banner{
+      background:#0b1020;
+      border:2px solid #00f7eb;
+    }
+    :root[data-theme="light"] .upgrade-banner__icon{
+      background:rgba(0,247,235,0.2);
+      color:#00f7eb;
+    }
+    :root[data-theme="light"] .upgrade-banner__cta{
+      background:rgba(0,247,235,0.18);
+      border-color:rgba(0,247,235,0.4);
+      color:#00f7eb;
+    }
+    :root[data-theme="light"] .upgrade-banner__cta:hover{
+      filter:brightness(1.04);
+    }
+    @media (min-width:768px){
+      .upgrade-banner{
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+        gap:1.2rem;
+      }
+      .upgrade-banner__row{
+        max-width:38rem;
+      }
+      .upgrade-banner__cta{
+        align-self:center;
+      }
+    }
+    .cta-card{
+      position:relative;
+      border-radius:1.35rem;
+      padding:1.1rem 1.35rem;
+      display:flex;
+      flex-direction:column;
+      gap:0.85rem;
+      text-decoration:none;
+      transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .cta-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 18px 34px rgba(6,16,24,0.35);
+    }
+    .cta-card__header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:0.68rem;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      font-weight:600;
+      opacity:0.82;
+    }
+    .cta-card__icon{
+      inline-size:2.25rem;
+      block-size:2.25rem;
+      border-radius:0.85rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.2rem;
+      background:rgba(255,255,255,0.14);
+    }
+    .cta-card__title{
+      font-size:0.98rem;
+      font-weight:700;
+      font-family:"Host Grotesk", "Plus Jakarta Sans", sans-serif;
+    }
+    .cta-card__body{
+      font-size:0.78rem;
+      line-height:1.55;
+      opacity:0.82;
+    }
+    .cta-card__cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:0.8rem;
+      font-weight:600;
+      padding:0.5rem 1.05rem;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.55);
+      color:inherit;
+      gap:0.4rem;
+      transition:filter .2s ease, transform .2s ease;
+    }
+    .cta-card__cta:hover{
+      filter:brightness(1.1);
+      transform:translateY(-2px);
+    }
+    .cta-card--inspiration{
+      background:linear-gradient(145deg, rgba(8,21,35,0.92), rgba(12,36,52,0.96));
+      border:1px solid rgba(37,99,235,0.28);
+      color:rgba(226,239,255,0.95);
+    }
+    .cta-card--inspiration .cta-card__icon{background:rgba(37,99,235,0.25); color:#c7d2fe;}
+    .cta-card--inspiration .cta-card__cta{background:rgba(37,99,235,0.2); border-color:rgba(96,165,250,0.45);}
+    .cta-card--create{
+      background:linear-gradient(145deg, rgba(6,24,32,0.94), rgba(15,53,60,0.96));
+      border:1px solid #00f7eb;
+      color:rgba(229,252,247,0.95);
+    }
+    .cta-card--create .cta-card__icon{background:rgba(0,247,235,0.18); color:#ccfbf1;}
+    .cta-card--create .cta-card__cta{background:rgba(0,247,235,0.18); border-color:rgba(0,247,235,0.45); color:#ccfbf1;}
+    :root[data-theme="light"] .cta-card{
+      box-shadow:0 10px 30px rgba(15,23,42,0.12);
+    }
+    :root[data-theme="light"] .cta-card--inspiration{
+      background:linear-gradient(145deg, rgba(235,244,255,0.96), rgba(215,234,252,0.96));
+      color:#0b1020;
+      border:1px solid rgba(59,130,246,0.22);
+    }
+    :root[data-theme="light"] .cta-card--inspiration .cta-card__icon{background:rgba(59,130,246,0.16); color:#1d4ed8;}
+    :root[data-theme="light"] .cta-card--inspiration .cta-card__cta{background:rgba(59,130,246,0.14); border-color:rgba(59,130,246,0.3); color:#0b1020;}
+    :root[data-theme="light"] .cta-card--create{
+      background:linear-gradient(145deg, rgba(232,252,247,0.96), rgba(217,244,237,0.96));
+      color:#0b433b;
+      border:1px solid #00f7eb;
+    }
+    :root[data-theme="light"] .cta-card--create .cta-card__icon{background:rgba(0,247,235,0.2); color:#0f766e;}
+    :root[data-theme="light"] .cta-card--create .cta-card__cta{background:rgba(0,247,235,0.14); border-color:rgba(0,247,235,0.35); color:#0b433b;}
+    @media (max-width:480px){
+      .cta-card{
+        padding:1rem 1.1rem;
+        gap:0.75rem;
+      }
+      .cta-card__icon{
+        inline-size:2rem;
+        block-size:2rem;
+        border-radius:0.75rem;
+        font-size:1rem;
+      }
+    }
+    #upgrade-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+    #upgrade-btn .upgrade-icon{
+      inline-size:1rem;
+      block-size:1rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #upgrade-btn .upgrade-icon svg{
+      width:100%;
+      height:100%;
+      fill:currentColor;
+    }
+  </style>
+
+  <!-- Additional fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="min-h-screen flex flex-col md:flex-row">
+    <aside class="sidebar border-b md:border-b-0 md:border-r" style="border-color:var(--border); background:var(--card);">
+      <div class="sidebar-inner">
+        <a href="#top" class="flex items-center gap-3 text-base font-semibold">
+          <img src="Adshelplogo.png" alt="Ads help logo" class="h-10 w-auto">
+        </a>
+        <nav class="sidebar-nav">
+          <a href="tutorials.html" class="sidebar-link" data-active="true">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M5 5.2A1.7 1.7 0 0 1 6.7 3.5H12v17H6.7A1.7 1.7 0 0 1 5 18.8V5.2Z"/>
+                <path fill="currentColor" d="M12 3.5h5.3A1.7 1.7 0 0 1 19 5.2v13.6c0-.94-.76-1.7-1.7-1.7H12V3.5Z"/>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </a>
+          <a href="index.html#production" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="7" r="2" fill="currentColor"/>
+                <circle cx="15" cy="17" r="2" fill="currentColor"/>
+              </svg>
+            </span>
+            <span>Production</span>
+          </a>
+          <a href="inspiration.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m11.8 2 1.9 5.2L19 9l-5.3 1.9-1.9 5.2-1.9-5.2L4.6 9l5.3-1.8L11.8 2Z"/>
+                <path fill="currentColor" d="m6.2 14.2.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z" opacity="0.7"/>
+              </svg>
+            </span>
+            <span>Inspiration</span>
+          </a>
+          <a href="plan.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M8.5 3.5h7a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z"/>
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M9 9h6M9 13h6M9 17h3"/>
+                <path fill="currentColor" d="M10 2h4v2h-4z"/>
+              </svg>
+            </span>
+            <span>Plan</span>
+          </a>
+          <a href="settings.html" class="sidebar-link">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm0-5.5 1.1 1.9 2.2-.3.9 2.1 2-.4.3 2.3 2 1-1 2 1 2-2 1 .3 2.3-2 .4-.9 2.1-2.2-.3L12 22l-1.1-1.9-2.2.3-.9-2.1-2 .4-.3-2.3-2-1 1-2-1-2 2-1-.3-2.3 2-.4.9-2.1 2.2.3L12 4Z"/>
+              </svg>
+            </span>
+            <span>Settings</span>
+          </a>
+          <a href="https://tally.so/r/woWpj1" class="sidebar-link" target="_blank" rel="noopener">
+            <span class="sidebar-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="m12 3.2 2.1 4.9 5.3.5-4 3.4 1.2 5.2-4.6-2.7-4.6 2.7 1.2-5.2-4-3.4 5.3-.5L12 3.2Z"/>
+              </svg>
+            </span>
+            <span>Featured Request</span>
+          </a>
+        </nav>
+        <div class="sidebar-actions">
+          <a href="plan.html" id="upgrade-btn" class="px-4 rounded-xl btn-primary font-semibold text-sm inline-flex items-center justify-start" style="padding-top:0.95rem; padding-bottom:0.95rem; gap:0.6rem;">
+            <span class="upgrade-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path fill="currentColor" d="M13.9 2 6 13.3h5.3L10.1 22l7.9-11.3h-5.3L13.9 2Z"/>
+              </svg>
+            </span>
+            <span>Upgrade</span>
+          </a>
+          <div class="card rounded-2xl p-4 space-y-2 text-sm" style="background:color-mix(in srgb, var(--card) 94%, transparent)">
+            <div class="text-base font-semibold">Théo Serra</div>
+            <div class="text-xs" style="color:var(--muted)">theo@adstudio.com</div>
+            <div class="text-xs" style="color:var(--muted)">12 / 100 créatives restantes</div>
+            <div class="h-2 rounded-full overflow-hidden" style="background:color-mix(in srgb, var(--card) 75%, transparent); border:1px solid color-mix(in srgb, var(--border) 70%, transparent);">
+              <div style="width:12%; height:100%; background:var(--accent1);"></div>
+            </div>
+            <div class="text-[10px] uppercase tracking-wide" style="color:var(--muted)">12 % du quota utilisé</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+      <main class="flex-1">
+        <div id="top"></div>
+
+        <div class="flex justify-end px-4 md:px-6 pt-4">
+          <button id="theme-toggle" class="px-3 py-2 rounded-xl btn-ghost text-sm">☼ Light</button>
+        </div>
+
+        <section class="max-w-6xl mx-auto px-4 md:px-6 pt-3 pb-0">
+          <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Dashboard
+          </h1>
+          <p class="text-base md:text-lg mt-2" style="color:var(--muted)">
+            Retrouvez vos indicateurs clés, vos actions récentes et vos kits de production.
+          </p>
+        </section>
+        <section class="flex-1" style="background:color-mix(in srgb, var(--bg) 94%, transparent)">
+          <div class="max-w-6xl mx-auto px-4 md:px-6 py-7 space-y-7">
+            <div class="upgrade-banner">
+              <div class="upgrade-banner__row">
+                <span class="upgrade-banner__icon">🚀</span>
+                <div class="space-y-1">
+                  <p class="upgrade-banner__title">Passer au niveau supérieur</p>
+                  <p class="upgrade-banner__desc">
+                    Débloquez des quotas étendus, un support prioritaire et des workflows avancés pour accélérer vos productions.
+                  </p>
+                </div>
+              </div>
+              <a href="plan.html" class="upgrade-banner__cta">Passer au plan Pro →</a>
+            </div>
+
+            <article class="card rounded-3xl p-6 md:p-7 space-y-6">
+              <header>
+                <p class="text-xs uppercase tracking-[0.24em]" style="color:var(--muted)">Parcours recommandé</p>
+                <h2 class="text-xl font-semibold mt-2">Le guide pour commencer avec Adstatic</h2>
+              </header>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="rounded-2xl p-4 space-y-3" style="background:color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--border);">
+                  <div class="aspect-video rounded-xl" style="background:rgba(15,23,42,0.6);"></div>
+                  <div class="space-y-1 text-sm" style="color:var(--muted)">
+                    <p class="text-base font-semibold" style="color:var(--ink)">1. Tour du dashboard</p>
+                    <p>Vue globale des projets.</p>
+                  </div>
+                </div>
+                <div class="rounded-2xl p-4 space-y-3" style="background:color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--border);">
+                  <div class="aspect-video rounded-xl" style="background:rgba(15,23,42,0.6);"></div>
+                  <div class="space-y-1 text-sm" style="color:var(--muted)">
+                    <p class="text-base font-semibold" style="color:var(--ink)">2. Générer une créative</p>
+                    <p>Paramétrage, variantes, exports en 3 minutes.</p>
+                  </div>
+                </div>
+                <div class="rounded-2xl p-4 space-y-3" style="background:color-mix(in srgb, var(--card) 92%, transparent); border:1px solid var(--border);">
+                  <div class="aspect-video rounded-xl" style="background:rgba(15,23,42,0.6);"></div>
+                  <div class="space-y-1 text-sm" style="color:var(--muted)">
+                    <p class="text-base font-semibold" style="color:var(--ink)">3. Organiser ses favoris</p>
+                    <p>Gestion des favoris, tags internes et partage.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <div class="cta-card-grid">
+              <article class="cta-card cta-card--inspiration">
+                <div class="cta-card__header">
+                  <span>Explorer</span>
+                  <span class="cta-card__icon" aria-hidden="true">🖼️</span>
+                </div>
+                <div class="cta-card__content">
+                  <p class="cta-card__title">Trouver de l'inspiration</p>
+                  <p class="cta-card__body">Découvrez des créatives performantes et ajoutez-les à vos favoris.</p>
+                </div>
+                <a href="inspiration.html" class="cta-card__cta">Découvrir maintenant →</a>
+              </article>
+              <article class="cta-card cta-card--create">
+                <div class="cta-card__header">
+                  <span>Générer</span>
+                  <span class="cta-card__icon" aria-hidden="true">✨</span>
+                </div>
+                <div class="cta-card__content">
+                  <p class="cta-card__title">Créer ma première créative</p>
+                  <p class="cta-card__body">Ouvrez l'atelier et générez votre première annonce en quelques minutes.</p>
+                </div>
+                <a href="index.html#production" class="cta-card__cta">Générer des créatives →</a>
+              </article>
+            </div>
+
+          </div>
+        </section>
+      </main>
+
+      <footer class="border-t" style="border-color:var(--border)">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 py-6 flex justify-center text-xs" style="color:var(--muted)">
+          <span>Développé par Théo Serra - Media Buyer & Creative Strategist Meta</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    const KEY = 'theme';
+    const btn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    const stored = localStorage.getItem(KEY);
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initial = stored || (prefersLight ? 'light' : 'dark');
+    root.setAttribute('data-theme', initial);
+    updateBtn(initial);
+    btn?.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') === 'light') ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem(KEY, next);
+      updateBtn(next);
+    });
+    function updateBtn(theme){ if(btn) btn.textContent = theme === 'light' ? '☾ Dark' : '☼ Light'; }
+  })();
+  </script>
+
+</body>
+</html>
